@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shifumi</title>
+</head>
+
+<body>
+    <button type="button" onclick="selectChoixJoueur('pierre')">Pierre</button>
+    <button type="button" onclick="selectChoixJoueur('feuille')">Feuille</button>
+    <button type="button" onclick="selectChoixJoueur('ciseaux')">Ciseaux</button>
+
+    <div id="verif"></div>
+    <div id="compteurJoueur"></div>
+    <div id="compteurOrdi"></div>
+    <script>
+        var scoreOrdi = 0;
+        var scoreJoueur = 0;
+
+        function selectChoixJoueur(i) { //fonction des boutons
+            choixJoueur = i;
+            shifumi()
+        };
+
+        function shifumi() { //fonction principal
+
+            var pierreFeuilleCiseaux = ["pierre", "feuille", "ciseaux"];
+            var choixOrdi = pierreFeuilleCiseaux[Math.floor(Math.random() * pierreFeuilleCiseaux.length)];
+
+
+            if (choixJoueur === choixOrdi) { // Si égal, alors
+
+                document.getElementById("verif").innerHTML = "<br>Egalité !" + "<br><br>L'Ordinateur avais choisis : " +
+                    choixOrdi + " <br>Et vous : " + choixJoueur;
+
+            } else if ((choixJoueur === "pierre" && choixOrdi === "ciseaux") ||
+                (choixJoueur === "feuille" && choixOrdi === "pierre") ||
+                (choixJoueur === "ciseaux" && choixOrdi === "feuille")) { //Si le joueur gagne, alors
+
+                document.getElementById("verif").innerHTML = "<br>Gagné !!!" + "<br><br>L'Ordinateur avais choisis : " +
+                    choixOrdi + " <br>Et vous : " + choixJoueur;
+                scoreJoueur++;
+            } else { //Sinon
+
+                document.getElementById("verif").innerHTML = "<br>Perdu !!!" + "<br><br>L'Ordinateur avais choisis : " +
+                    choixOrdi + " <br>Et vous : " + choixJoueur;
+                scoreOrdi++;
+            }
+            //compteur de score
+            document.getElementById("compteurOrdi").innerHTML = "L'ordinateur a : " + scoreOrdi + " point(s)";
+            document.getElementById("compteurJoueur").innerHTML = "<br>Vous avez: " + scoreJoueur + " point(s)";
+        }
+    </script>
+</body>
+
+</html>

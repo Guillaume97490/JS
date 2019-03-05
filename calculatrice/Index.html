@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Calculatrice</title>
+</head>
+
+<body>
+    <div>
+        <div id="text" class="affichage">Pret</div><br>
+
+        <div class="calculatrice">
+            <button class="sept" onclick="chiffre('7')">7</button>
+            <button class="huit" onclick="chiffre('8')">8</button>
+            <button class="neuf" onclick="chiffre('9')">9</button>
+            <button class="diviser" onclick="ope('/')">/</button><br>
+            <button class="quatre" onclick="chiffre('4')">4</button>
+            <button class="cinc" onclick="chiffre('5')">5</button>
+            <button class="six" onclick="chiffre('6')">6</button>
+            <button class="multiplier" onclick="ope('*')">*</button><br>
+            <button class="un" onclick="chiffre('1')">1</button>
+            <button class="deux" onclick="chiffre('2')">2</button>
+            <button class="trois" onclick="chiffre('3')">3</button>
+            <button class="soustraire" onclick="ope('-')">-</button><br>
+            <button class="additionner" onclick="ope('+')">+</button>
+            <button class="zero" onclick="chiffre('0')">0</button>
+            <button class="c" onclick="reset('i')">c</button><br>
+            <button class="egal" onclick="egal('=')">=</button>
+        </div>
+    </div>
+
+
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
