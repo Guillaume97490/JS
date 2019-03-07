@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <title>Jeux de des</title>
+</head>
+
+<body class="container-fluid">
+    <main class="container-fluid text-uppercase">
+        <a class="newGame text-dark liensJeu" href="javascript:newgame()">
+            <div class="row col-12 mx-auto justify-content-center align-items-center">
+                <img class="icons" src="images/add-circular-outlined-button.png" alt="">
+                <h1 id="newGame" class="text-center">New game</h1>
+            </div>
+        </a>
+
+
+
+
+        <div id="blocTop" class="row justify-content-center mx-auto">
+            <div id="Bloc1" class="col-5 text-center row">
+                <p id="player1" class="col-12">Player 1</p>
+                <p id="ScorePlayer1" class="col-12">0</p>
+            </div>
+            <div class="col-2 my-auto">
+                <img id="diceFace" src="images/dice-5.png" alt="">
+            </div>
+
+            <div id="Bloc2" class="col-5 text-center row">
+                <p id="player2" class="col-12">Player 2</p>
+                <p id="ScorePlayer2" class="col-12">0</p>
+            </div>
+
+        </div>
+        </div>
+
+
+        <div id="blocBottom" class="row justify-content-center mx-auto">
+            <div class="col-5 text-center row align-items-center currentScore">
+                <p id="currentA" class="col-12">Current</p>
+                <p id="ScoreCurrent1" class="col-12">0</p>
+            </div>
+            <div id="RollHold" class="col-3 text-center align-items-center">
+                <a class="text-dark liensJeu" href="javascript:relance()">
+                    <p class="col-12 d-flex justify-content-center liensJeu"><img class="icons" src="images/reload.png" alt="">
+                        Roll Dice
+                    </p>
+                </a>
+
+
+                <a class="text-dark liensJeu" href="javascript:garderA()">
+                    <p class="col-12 d-flex justify-content-center">
+                        <img class="icons" src="images/download.png" alt=""> Hold
+                    </p>
+                </a>
+
+            </div>
+            <div class="col-5 text-center row align-items-center currentScore">
+
+                <p id="currentB" class="col-12">Current</p>
+                <p id="ScoreCurrent2" class="col-12">0</p>
+            </div>
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
