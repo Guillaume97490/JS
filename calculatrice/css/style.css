@@ -5,11 +5,11 @@
 
 button{
     text-align: center;
-    padding: 1% 0;
+    /* padding: 1% 0; */
     width: 5%;
     margin-bottom: 1%;
     font-weight: bold;
-    font-size: 2vw;
+    font-size: 5vmin;
     text-align: center;
 }
 
@@ -25,7 +25,11 @@ button{
     font-size: 1.9vw;
     font-family: sans-serif;
 }
-.calculatrice{
-    
-    
+#text{
+    height: 15vh;
+    width: 20.5vw;
+    font-size: 4vmin;
+    border: solid 1px;
+
+background: #cfd7a6;
 }

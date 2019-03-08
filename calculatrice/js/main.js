@@ -13,7 +13,7 @@ function reset(i) {
     chiffre2 = "";
     operateur = "";
     separateur = "";
-    alert("Remise a zero ...")
+    document.getElementById("text").innerHTML = "Pret";
 }
 
 function ope(i) {
@@ -52,6 +52,6 @@ function egal(i){
     } else {alert("Erreur...")}
     
     document.getElementById("text").innerHTML = "" +
-                    chiffre1 + " " + operateur+" " + chiffre2 + "<br><br>" + "= "+ resultat;
+                    chiffre1 + " " + operateur+" " + chiffre2 + "<br><br>" + "= \n"+ resultat;
 }
 
