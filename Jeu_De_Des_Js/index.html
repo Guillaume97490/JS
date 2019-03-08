@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <title>Jeux de des</title>
+    <title>Jeux de dés</title>
 </head>
 
 <body class="container-fluid">
@@ -22,18 +22,21 @@
 
 
 
-
+        
         <div id="blocTop" class="row justify-content-center mx-auto">
+            <!-- Score global 1 -->
             <div id="Bloc1" class="col-5 text-center row">
-                <p id="player1" class="col-12">Player 1</p>
+                <p id="player1" class="col-12 my-auto ml-5">Player 1<span id="circle1" class="ml-5 iconCircle">●</span></p>
                 <p id="ScorePlayer1" class="col-12">0</p>
             </div>
+
+            <!-- L'image du dé -->
             <div class="col-2 my-auto">
                 <img id="diceFace" src="images/dice-5.png" alt="">
             </div>
-
+            <!-- Score global 2 -->
             <div id="Bloc2" class="col-5 text-center row">
-                <p id="player2" class="col-12">Player 2</p>
+                <p id="player2" class="col-12 my-auto"><span id="circle2" class="mr-5 iconCircle">●</span><span class="mr-5">Player 2</span></p>
                 <p id="ScorePlayer2" class="col-12">0</p>
             </div>
 
@@ -42,10 +45,13 @@
 
 
         <div id="blocBottom" class="row justify-content-center mx-auto">
+            <!-- Score actuel 1 -->
             <div class="col-5 text-center row align-items-center currentScore">
-                <p id="currentA" class="col-12">Current</p>
+                <p id="current1" class="col-12">Current</p>
                 <p id="ScoreCurrent1" class="col-12">0</p>
             </div>
+
+            <!-- RollDice -->
             <div id="RollHold" class="col-3 text-center align-items-center">
                 <a class="text-dark liensJeu" href="javascript:relance()">
                     <p class="col-12 d-flex justify-content-center liensJeu"><img class="icons" src="images/reload.png" alt="">
@@ -53,7 +59,7 @@
                     </p>
                 </a>
 
-
+                <!-- RollDice -->
                 <a class="text-dark liensJeu" href="javascript:garder()">
                     <p class="col-12 d-flex justify-content-center">
                         <img class="icons" src="images/download.png" alt=""> Hold
@@ -61,9 +67,9 @@
                 </a>
 
             </div>
+            <!-- Score actuel 1 -->
             <div class="col-5 text-center row align-items-center currentScore">
-
-                <p id="currentB" class="col-12">Current</p>
+                <p id="current2" class="col-12">Current</p>
                 <p id="ScoreCurrent2" class="col-12">0</p>
             </div>
         </div>

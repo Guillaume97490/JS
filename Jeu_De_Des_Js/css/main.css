@@ -30,6 +30,11 @@ img{
 
 }
 
+.iconCircle{
+    height: 7rem;
+    color: #eb4d4d;
+}
+
 
 #blocTop{
     
@@ -38,29 +43,40 @@ img{
 }
 
 #player1, #player2{
-    font-size: 2rem;
+    font-size: 4rem;
 }
 #ScorePlayer1, #ScorePlayer2{
-    font-size: 6rem;
+    font-size: 11rem;
     color: #eb4d4d;
 }
 #blocBottom{
     
-    height: 20vh;
+    height: 17vh;
 
 } 
+
+#current1,#current2{
+    font-size: 2rem;
+}
+
+
+
 .currentScore{
-    max-width: 200px;
+    max-width: 280px;
     background: #eb4d4d;
 }
 
+
 #RollHold{
-    margin: 0 12%;
+    margin: 0 11%;
     font-size: 1.6rem;
+    display: flex;
+flex-direction: column;
+justify-content: space-between;
 }
 #ScoreCurrent2,#ScoreCurrent1{
     color: white;
-    font-size: 3rem;
+    font-size: 4rem;
 }
 .liensJeu{
     outline: none;
