@@ -1,0 +1,88 @@
+header {
+    height: 5vh;
+    background: rgb(133, 133, 133);
+
+}
+
+main {
+    height: 95vh;
+}
+
+.calCorps {
+    height: 70vh;
+    width: 50vw;
+    background: #A0A0A0;
+}
+
+.calTouche {
+    padding-top: 2%;
+    margin-right: 6% !important;
+    margin-left: 6% !important;
+}
+
+.ecran {
+    background: #7FD096;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5vmin;
+    color: rgb(69, 73, 65);
+    margin-bottom: 8% !important;
+    overflow: auto;
+    max-width: 420px;
+    line-height: normal;
+}
+
+.touche {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 9vmin;
+    max-width: 14vmin;
+    padding: 5px;
+    font-size: 7vmin;
+    outline: none !important;
+}
+
+.ligneTouche {
+    height: 70px;
+}
+
+@media screen and (max-width: 640px) {
+    header {
+        margin: 0;
+    }
+
+    .calCorps {
+        width: unset;
+        margin: 0;
+        height: 95vh;
+    }
+
+    .calTouche {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        max-width: 100vw;
+    }
+
+    .ecran {
+        font-size: 12vmin;
+    }
+
+    .touche {
+        font-size: 15vmin;
+        height: 70px;
+        max-width: 100px;
+    }
+
+    .ligneTouche {
+        justify-content: space-between;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .calCorps {
+        width: 512px;
+
+
+    }
+}

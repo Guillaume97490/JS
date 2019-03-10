@@ -1,0 +1,78 @@
+*{
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+body{
+    height: 95vh;
+}
+header{
+    height:10vh;
+    background: rgb(238, 238, 238)
+}
+
+.shifumi{
+    font-size: 2rem;
+}
+.recommencer{
+    color: rgb(109, 109, 109);
+}
+main{
+    margin:2%;
+    padding: 0 10% !important;
+    height: 100vh;
+    font-weight: 100;
+}
+hr{
+    
+    border-top: solid 1px rgb(151, 151, 151);
+}
+
+.joueur{
+    color: #58AA6F;
+}
+
+.ordinateur{
+    color: #EF4747;
+}
+
+.adversaire{
+    /* font-size: 4rem; */
+    font-size: 5vmin;
+}
+
+.compteurTotal{
+    /* font-size: 9rem; */
+    font-size: 13vmin;
+}
+.compteurManche{
+    /* font-size: 5rem; */
+    font-size: 8vmin;
+}
+.enCours{
+    /* font-size: 2rem; */
+    font-size: 3vmin;
+}
+
+.total{
+    /* font-size: 3rem; */
+    font-size: 4vmin;
+}
+
+.blocManche{
+    padding-bottom: 7vh;
+}
+.manche{
+    /* font-size: 2rem; */
+    font-size: 3vmin;
+}
+
+#verif{
+    /* font-size: 2rem;  */
+    font-size: 3vmin; 
+    font-weight: 300;
+}
+#choixJoueur,#choixOrdi{
+    text-transform: capitalize;
+    font-weight: 300;
+}

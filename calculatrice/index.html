@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>CalculatriceJs</title>
+</head>
+
+<body class="container-fluid p-0">
+    <header class="d-flex text-center row align-items-center mx-0">
+        <p class="col-12 m-0">CalculatriceJs</p>
+    </header>
+
+    <main class="d-flex justify-content-center align-items-center">
+
+        <section class="calCorps row">
+
+            <div class="calTouche container row justify-content-center m-0">
+
+                <div class="ecran col-12 m-0 text-right" id="text">
+                    <p>0</p>
+                </div>
+
+                <div class="ligneTouche row justify-content-sm-between col-12 p-0">
+                    <button class="btn-secondary touche col-3" onclick="inverse('+-')">+-</button>
+                    <button class="btn-secondary touche col-3" onclick="reset('i')">c</button>
+                </div>
+
+                <div class="ligneTouche row justify-content-between col-12 p-0">
+                    <button class="btn-secondary touche col-3" onclick="chiffre('7')">7</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('8')">8</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('9')">9</button>
+                    <button class="btn-secondary touche col-3" onclick="ope('/')">/</button>
+                </div>
+
+                <div class="ligneTouche row justify-content-between col-12 p-0">
+                    <button class="btn-secondary touche col-3" onclick="chiffre('4')">4</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('5')">5</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('6')">6</button>
+                    <button class="btn-secondary touche col-3" onclick="ope('*')">x</button>
+                </div>
+
+                <div class="ligneTouche row justify-content-between col-12 p-0">
+                    <button class="btn-secondary touche col-3" onclick="chiffre('1')">1</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('2')">2</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('3')">3</button>
+                    <button class="btn-secondary touche col-3" onclick="ope('-')">-</button>
+                </div>
+                <div class="ligneTouche row justify-content-between col-12 p-0">
+                    <button class="btn-secondary touche col-3" onclick="chiffre('0')">0</button>
+                    <button class="btn-secondary touche col-3" onclick="chiffre('.')">.</button>
+                    <button class="btn-secondary touche col-3" onclick="egal('=')">=</button>
+                    <button class="btn-secondary touche col-3" onclick="ope('+')">+</button>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

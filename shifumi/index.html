@@ -5,55 +5,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
     <title>Shifumi</title>
 </head>
 
-<body>
-    <button type="button" onclick="selectChoixJoueur('pierre')">Pierre</button>
-    <button type="button" onclick="selectChoixJoueur('feuille')">Feuille</button>
-    <button type="button" onclick="selectChoixJoueur('ciseaux')">Ciseaux</button>
+<body class="d-flex flex-column justify-content-center">
+    <header class="container-fluid d-flex text-center align-items-center">
+        <p class="shifumi col-2 p-0 m-0">Shifumi</p>
+        <div class="col-8" ><a class="recommencer text-center" onclick="recommencer()" href="">Recommencer</a></div>
+        
+    </header>
+    <main class="container-fluid d-flex flex-column justify-content-between">
+        
 
-    <div id="verif"></div>
-    <div id="compteurJoueur"></div>
-    <div id="compteurOrdi"></div>
-    <script>
-        var scoreOrdi = 0;
-        var scoreJoueur = 0;
+        <div class="row justify-content-between text-center align-items-center">
+            <p class="joueur adversaire col-3">Joueur</p>
+            <p class="col-6 total">Vs</p>
+            <p class="ordinateur adversaire col-3">Ordinateur</p>
+        </div>
 
-        function selectChoixJoueur(i) { //fonction des boutons
-            choixJoueur = i;
-            shifumi()
-        };
+        <!-- TOTAL -->
+        
+        <div class="row text-center justify-content-center align-items-center">
+            <div class="joueur compteurTotal col-3" id="compteurJoueur">0</div>
+            <hr class="d-none d-sm-block col-1">
+            <p class=" total col-2">TOTAL</p>
+            <hr class="d-none d-sm-block col-1">
+            <div class="ordinateur compteurTotal col-3" id="compteurOrdi">0</div>
+        </div>
+        
 
-        function shifumi() { //fonction principal
+        <!-- MANCHE -->
+        <div class="blocManche row text-center justify-content-center align-items-center">
+            <div class="joueur compteurManche col-3" id="compteurMancheJoueur">0</div>
+            <hr class="d-none d-sm-block col-1">
+            <p class="manche col-2">Manche</p>
+            <hr class="d-none d-sm-block col-1">
+            <div class="ordinateur compteurManche col-3" id="compteurMancheOrdi">0</div>
+        </div>
 
-            var pierreFeuilleCiseaux = ["pierre", "feuille", "ciseaux"];
-            var choixOrdi = pierreFeuilleCiseaux[Math.floor(Math.random() * pierreFeuilleCiseaux.length)];
+        <!-- COUPS EN COURS -->
+        <div class="row text-center justify-content-center align-items-center">
+            <p class="joueur enCours col-3" id="choixJoueur">&nbsp;</p>
+            <hr class="d-none d-sm-block col-1">
+            <div class="col-2" id="verif">Pret</div>
+            <hr class="d-none d-sm-block col-1">
+            <p class="ordinateur enCours col-3" id="choixOrdi">&nbsp;</p>
+        </div>
 
 
-            if (choixJoueur === choixOrdi) { // Si égal, alors
+        <!-- CHOIX -->
+    <div class="row text-center">
+        <div class="col-12">
+            <button class="btn-lg btn-secondary" type="button" onclick="selectChoixJoueur('pierre')">Pierre</button>
+            <button class="btn-lg btn-secondary" type="button" onclick="selectChoixJoueur('papier')">Papier</button>
+            <button class="btn-lg btn-secondary" type="button" onclick="selectChoixJoueur('ciseaux')">Ciseaux</button>
+        </div>
+    </div>
+    </main>
 
-                document.getElementById("verif").innerHTML = "<br>Egalité !" + "<br><br>L'Ordinateur avais choisis : " +
-                    choixOrdi + " <br>Et vous : " + choixJoueur;
 
-            } else if ((choixJoueur === "pierre" && choixOrdi === "ciseaux") ||
-                (choixJoueur === "feuille" && choixOrdi === "pierre") ||
-                (choixJoueur === "ciseaux" && choixOrdi === "feuille")) { //Si le joueur gagne, alors
+    
 
-                document.getElementById("verif").innerHTML = "<br>Gagné !!!" + "<br><br>L'Ordinateur avais choisis : " +
-                    choixOrdi + " <br>Et vous : " + choixJoueur;
-                scoreJoueur++;
-            } else { //Sinon
 
-                document.getElementById("verif").innerHTML = "<br>Perdu !!!" + "<br><br>L'Ordinateur avais choisis : " +
-                    choixOrdi + " <br>Et vous : " + choixJoueur;
-                scoreOrdi++;
-            }
-            //compteur de score
-            document.getElementById("compteurOrdi").innerHTML = "L'ordinateur a : " + scoreOrdi + " point(s)";
-            document.getElementById("compteurJoueur").innerHTML = "<br>Vous avez: " + scoreJoueur + " point(s)";
-        }
-    </script>
+
+
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

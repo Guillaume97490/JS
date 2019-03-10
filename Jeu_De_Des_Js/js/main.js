@@ -54,6 +54,7 @@ function garder() {//ajoute le current score au globalscore et termine le tour d
 
         if (scoreGlobalPlayer1 >= 100) {
             alert("Player 1 à gagner : ")
+            newgame();
         }
 
 
@@ -73,6 +74,7 @@ function garder() {//ajoute le current score au globalscore et termine le tour d
 
         if (scoreGlobalPlayer2 >= 100) {
             alert("Player 2 à gagner : ")
+            newgame();
         }
     }
 }
