@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>chat-js</title>
+</head>
+<body>
+    <h1>chat-js</h1>
+
+<main id="app">
+    <ul>
+        <li v-for="(chat, index) in chats">
+            <span >{{chat.value}}</span>
+            <span >{{chat.date}}</span>
+
+           
+        </li>
+    </ul>
+
+
+
+
+
+
+    <form>
+        <input type="text" v-model="message" id="messenger">
+        <button @click="envoyerMessage(message)" type="button">envoyer</button>
+    </form>
+    </main>
+    <script src="js/vue.js"></script>
+    <script src="js/moment-with-locales.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
