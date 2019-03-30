@@ -1,0 +1,38 @@
+*{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-sizing: border-box;
+
+}
+
+* i{
+    cursor: pointer;
+    
+}
+
+
+
+#envoyer{
+    font-size: 2em;
+}
+
+#messenger{
+    width: calc(100% - 38px);
+
+}
+.displayPseudo{
+    font-weight: bold;
+}
+.displayMessage{
+    overflow-wrap: break-word;
+
+}
+#textChat{
+    height: 70vh;
+}
+#blocTextArea{
+    height: 20vh;
+    /* position: fixed;
+    width: 100%; */
+}
