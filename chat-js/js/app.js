@@ -8,179 +8,81 @@ var config = { // Configuration de FireBase
 };
 firebase.initializeApp(config);
 
-
-Vue.directive('focus', { // Enregistrer une directive globale appelée `v-focus`
-    inserted: function (el) { // Quand l'élément lié est inséré dans le DOM...
-        el.focus() // L'élément prend le focus
+Vue.directive('focus', {      // Enregistrer une directive globale appelée `v-focus`.
+    inserted: function (el) { // Quand l'élément lié est inséré dans le DOM,
+        el.focus()            // l'élément prend le focus.
     }
 })
 
 var chatJs = new Vue({
-    el: "#app",
+    el: '#app',
     data: {
-        message: "",
-        msgEdit: "",
-        salon: "salon2",
-        user: "",
-        editPseudoInput: true,
-        listUsers: [],
-        chats: [],
-        salon2s: [],
+        pseudo: "",
+        msg: "",
+        dateMsg: "",
+        salon: "Salon1", // Salon actuel, par défaut est positioné sur le premier.
+        listSalon: ["Salon1", "Salon2", "Salon3"],
+        listMessages: [],
         database: firebase.database(),
     },
-    created() { // a la création de l'instance Vue JS ...
-        const refSalons2s = firebase.database().ref('salon2'); // ...On récupère les données de Firebase
-        refSalons2s.on('value', (snapshot) => {
-            this.salon2s = snapshot.val();
-        });
-        const refChats = firebase.database().ref('chats');
-        refChats.on('value', (snapshot) => {
-            this.chats = snapshot.val();
-        });
-
+    created() {
+        this.loadMsg();
     },
     mounted() {
 
-        // Met le focus sur input ajout de tâche
-        // let input = document.querySelector('[autofocus]');
-        // if (input) {
-        //     input.focus();
-        // };
-
-
-        //  // Si il y a des données locales, elles seront chargées
-        // if (localStorage.getItem('dataLocal')) {
-        //     try {
-        //         this.listUsers = JSON.parse(localStorage.getItem('dataLocal'));
-        //     } catch (e) {
-        //         localStorage.removeItem('dataLocal');
-        //     }
-        // };
-        //     if (localStorage.getItem('dataLocalChats')) {
-        //         try {
-        //             this.chats = JSON.parse(localStorage.getItem('dataLocalChats'));
-        //         } catch (e) {
-        //             localStorage.removeItem('dataLocalChats');
-        //         }
-        //     };
-        //     if (localStorage.getItem('dataLocalSalon2s')) {
-        //         try {
-        //             this.salon2s = JSON.parse(localStorage.getItem('dataLocalSalon2s'));
-        //         } catch (e) {
-        //             localStorage.removeItem('dataLocalSalon2s');
-        //         }
-        //     };
-
     },
-
-
     methods: {
-        envoyerMessage: function () {
-            moment.locale('fr');
-            if (this.editPseudoInput == true) {
-
-                this.listUsers.push({
-                    user: this.user,
-                });
-                this.editPseudoInput = false;
-            }
-            this.editPseudoInput = false;
-
-
-            if (this.salon == "chats") {
-                this.database.ref('chats').push({ // Envoie de données sur FireBase
-                    value: this.message,
-                    edit: '',
-                    date: moment().local('fr').format("[Le] DD MMMM YYYY, à HH:mm:ss"),
-                    pseudo: this.user,
-                });
-
-            }
-            if (this.salon == "salon2") {
-
-
-                this.database.ref('salon2').push({ // Envoie de données sur FireBase
-                    value: this.message,
-                    edit: '',
-                    date: moment().local('fr').format("[Le] DD MMMM YYYY, à HH:mm:ss"),
-                    pseudo: this.user,
-
-                });
-
-            }
-            this.message = ""; // remet à zéro la zonne de texte "message"
-            this.saveOnLocal();
+        loadMsg: function () {                                   // Récupère les donnée FireBase,
+            let message = firebase.database().ref('listMessages')
+            message.on('value', (msg) => {
+                this.listMessages = []
+                msg.forEach((data) => {
+                    this.listMessages.push({                     // et les ajoutent à la liste des messages.
+                        salon: data.child('salon').val(),
+                        pseudo: data.child('pseudo').val(),
+                        msg: data.child('msg').val(),
+                        dateMsg: data.child('dateMsg').val(),
+                    })
+                })
+            })
+            /* index = this.listSalon[index];
+            let message = firebase.database().ref('listMessages').orderByChild('salon').equalTo(e); */
         },
-        editMessage: function (chat , salon2) {
-
-            if (this.salon == "chats") {
-                chat.edit = true;
-                this.msgEdit = chat.value; // à l'édition de message, place le précédent contenu dans l'input
-
-            };
-            if (this.salon == "salon2") {
-                salon2.edit = true;
-                this.msgEdit = salon2.value;
-
-            };
-
-
-        },
-        editInputMessage(index , chat , salon2) {
-
-            const postKey = firebase.database().ref().child(index).key; // Récupère la clé de l'élément,
-
-
-            if (this.salon == "chats") {
-                firebase.database().ref('chats/' + postKey).child('value').set(this.msgEdit); // Et met à jour la value de cet élément.
-            };
-            if (this.salon == "salon2") {
-                alert("test")
-                firebase.database().ref('salon2/' + postKey).child('value').set(this.msgEdit); // Et met à jour la value de cet élément.
-            };
-            
-            chat.edit = false;
-            salon2.edit = false;
-
-        },
-        goChats: function () {
-            this.salon = "chats";
-        },
-        goSalon2: function () {
-
-            this.salon = "salon2";
-        },
-        deleteMessage: function (index) {
-            // alert("test")
-            if (this.salon == "chats") {
-                firebase.database().ref('chats').child(index).remove(); // Suppresion de message sur FireBase
-
-            };
-            if (this.salon == "salon2") {
-                firebase.database().ref('salon2').child(index).remove();
-            };
-        },
-        changePseudo: function () {
-            this.listUsers.push({
-                user: this.user,
+        filtreSalon: function (listMessages, salon) { // Filtre les messages selon le salon choisi.
+            return listMessages.filter(function (u) {
+                return u.salon === salon
             });
-            this.editPseudoInput = false;
-            this.saveOnLocal();
         },
-        // Sauvegarde des nouvelles données locales
-        saveOnLocal() {
-            const parsedListUsers = JSON.stringify(this.listUsers);
-            localStorage.setItem('dataLocal', parsedListUsers);
-
-            const parsedChats = JSON.stringify(this.chats);
-            localStorage.setItem('dataLocalChats', parsedChats);
-
-            const parsedSalon2s = JSON.stringify(this.salon2s);
-            localStorage.setItem('dataLocalSalon2s', parsedSalon2s);
+        changeSalon: function (index) {
+            this.salon = this.listSalon[index];
         },
-        // Lecture des données locales sauvegardés
+        addMessage: function () {
+            moment.locale('fr');
+            if (this.pseudo !== '' && this.msg !== '') { // Verifie que le Peuso et le message ne soit pas vide,
+                this.database.ref('listMessages').push({ // et les envoient les données vers FireBase.
+                    salon: this.salon,
+                    edit: '',
+                    dateMsg: moment().local('fr').format("[Le] DD MMMM YYYY, à HH:mm:ss"),
+                    pseudo: this.pseudo,
+                    msg: this.msg,
+                });
+            };
+            this.msg = "";
+        },
+        deleteMessage: function(index){
+            // firebase.database().ref('listMessages').child(index).remove()
+            
+            const ref = this.database.ref('listMessages').val;
+            // const z = firebase.database().ref('listmessages' + postKey).child('msg');
+            // alert(postKey)
+            // firebase.database().ref('listMessages').child(index).remove();
+            alert(ref);
+            console.log(ref)
 
+        },
+        editMessage: function(){
 
-    },
+        },
 
-})
+    }
+});
