@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +13,12 @@
 
 <body>
     <h1>chat-js</h1>
+
     <main>
         <div id="app">
-
             <div class="champSaisie">
+
+
                 <div class="listSalon">
                     <p>Salon : <span>{{this.salon}}</span> </p>
                     <ul>
@@ -25,33 +26,47 @@
                             <a @click="changeSalon(index)" href="#"><strong>{{linkSalon}}</strong></a>
                         </li>
                     </ul>
-
                 </div>
+
+
                 <form>
                     <div class="BoxPseudo">
-                        <input type="text" v-model="pseudo" id="formpseudo" placeholder="Choisir votre pseudo ...">
+                        <input v-on:keyup.enter="choixPseudo()" type="text" v-model="pseudo" id="formpseudo" placeholder="Choisir votre pseudo ...">
                     </div>
 
                     <div class="BoxMessage">
                         <textarea v-model="msg" cols="27" rows="3" placeholder="Ecrir un message ..."></textarea>
                     </div>
                 </form>
-
+                
                 <button @click="addMessage(pseudo,msg,dateMsg)" type="button">Envoyer le message</button>
 
             </div>
 
+
             <div class="listingMessage">
                 <ul>
-                    <li v-for="({salon, pseudo, msg, dateMsg}, index) in filtreSalon(listMessages, salon)">
+                    <li v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)">
                         <span><strong>{{pseudo}}</strong> - {{dateMsg}}</span>
                         <p class="userMessage"></span>{{msg}}</p>
-                        <i @click="deleteMessage(index)" class="fas fa-times"></i>
+                        <input v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit" v-focus
+                            v-on:keyup.enter="validInputEditMessage(idMsg, edit)">
+                        <i @click="deleteMessage(idMsg)" class="fas fa-times"></i>
+                        <i @click="editMessage(idMsg, msg)" class="fas fa-edit"></i>
                         <hr>
-
                     </li>
                 </ul>
             </div>
+
+            <div>
+                <ul>
+                    <li v-for="(linkUser, index) in listUsers">
+                        <a href="#">{{linkUser}}</a>
+                    </li>
+                </ul>
+            </div>
+
+
         </div>
     </main>
 
