@@ -18,6 +18,7 @@ var chatJs = new Vue({
     el: '#app',
     data: {
         pseudo: "",
+        pseudoEdit: "",
         msg: "",
         msgEdit: "",
         dateMsg: "",
@@ -30,6 +31,7 @@ var chatJs = new Vue({
 
     created() {
         this.loadMsg();
+        this.loadUsers();
     },
 
     methods: {
@@ -50,6 +52,18 @@ var chatJs = new Vue({
             });
 
         },
+        loadUsers: function () {
+            let user = firebase.database().ref('listUsers')
+            user.on('value', (pseudo) => {
+                this.listUsers = []
+                pseudo.forEach((data) => {
+                    this.listUsers.push({ // et les ajoutent à la liste des messages.
+                        idUser: data.child('idUser').val(),
+                        pseudo: data.child('pseudo').val(),
+                    });
+                });
+            });
+        },
 
         filtreSalon: function (listMessages, salon) { // Filtre les messages selon le salon choisi.
             return listMessages.filter(function (u) {
@@ -61,16 +75,50 @@ var chatJs = new Vue({
             this.salon = this.listSalon[index];
         },
 
-        choixPseudo: function(){  // A FINIR
-            // if (this.pseudo !== ''){
+        loginUser: function () { 
 
-            // }
+            // A voir : vérifier que le pseudo n'existe pas déja dans FireBase
+
+            if (this.pseudoEdit !== '') {
+                this.pseudo = this.pseudoEdit;
+                var myRef = firebase.database().ref().push(); // génère un ID unique,
+                var key = myRef.key;
+                this.database.ref('listUsers').push({ //  et envoient les données vers FireBase.
+                    idUser: key,
+                    pseudo: this.pseudo,
+                });
+            };
+            this.pseudoEdit = "";
+        },
+        logoutUser: function (pseudo) {
+            pseudo = this.pseudo;
+            var ref = firebase.database().ref('listUsers');
+            ref.orderByChild('pseudo').equalTo(pseudo).on("value", function (snapshot) { // Récupère l'ID unique FireBase.
+                snapshot.forEach((function (child) {
+                    firebase.database().ref('listUsers').child(child.key).remove(); // Supprime d'apres l'ID unique.
+                }));
+            });
+            this.pseudo = "";
+        },
+        privateSalon: function(idUser){ // A FINIR
+            
+            // alert(idUser)
+
+
+            // var ref = firebase.database().ref('listUsers');
+            // ref.orderByChild('pseudo').equalTo(pseudo).on("value", function (snapshot) { // Récupère l'ID unique FireBase.
+            //     snapshot.forEach((function (child) {
+            //         console.log(child.key)
+            //         // firebase.database().ref('listUsers').child(child.key).remove(); // Supprime d'apres l'ID unique.
+            //     }));
+            // });
+
+
         },
 
         addMessage: function () {
             moment.locale('fr');
             if (this.pseudo !== '' && this.msg !== '') { // Verifie que le Peuso et le message ne soit pas vide,
-
                 var myRef = firebase.database().ref().push(); // génère un ID unique,
                 var key = myRef.key;
 
