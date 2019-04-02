@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,53 +13,68 @@
 </head>
 
 <body>
-    <h1>chat-js</h1>
+    <h1 class="text-center">chat-js</h1>
 
-    <main>
-        <div id="app">
-            <div class="champSaisie">
-
-                <div class="listSalon">
-                    <p>Salon : <span>{{this.salon}}</span> </p>
-                    <ul>
-                        <li v-for="(linkSalon, index) in listSalon">
-                            <a @click="changeSalon(index)" href="#"><strong>{{linkSalon}}</strong></a>
-                        </li>
-                    </ul>
-                </div>
-
-                <form action="#">
-                    <div class="BoxPseudo">
-                        <input v-if="this.pseudo == ''" v-on:keyup.enter="loginUser(pseudo)" type="text" v-model="pseudoEdit" id="formpseudo" placeholder="Choisir votre pseudo ...">
-                        <span>{{this.pseudo}}</span>
-                        <button v-if="this.pseudo !== ''" @click="logoutUser(this.pseudo)" >Déconnexion</button>
-                    </div>
-
-                    <div class="BoxMessage">
-                        <textarea v-model="msg" cols="27" rows="3" placeholder="Ecrir un message ..."></textarea>
-                    </div>
-
-                    <button @click="addMessage(pseudo,msg,dateMsg)" type="button">Envoyer le message</button>
-                </form>
-
-            </div>
+    <main class="container-fluid">
+        <div id="app" class="row">
+            <h4 class="col-12">Salon : <span>{{this.salon}}</span> </h4>
 
 
-            <div class="listingMessage">
+
+            <div id="listSalon" class="">
                 <ul>
-                    <li v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)">
-                        <span><strong>{{pseudo}}</strong> - {{dateMsg}}</span>
-                        <p class="userMessage"></span>{{msg}}</p>
-                        <input v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit" v-focus
-                            v-on:keyup.enter="validInputEditMessage(idMsg, edit)">
-                        <i @click="deleteMessage(idMsg)" class="fas fa-times"></i>
-                        <i @click="editMessage(idMsg, msg)" class="fas fa-edit"></i>
-                        <hr>
+                    <li v-for="(linkSalon, index) in listSalon">
+                        <a @click="changeSalon(index)" href="#"><strong>{{linkSalon}}</strong></a>
                     </li>
                 </ul>
             </div>
 
-            <div>
+
+            <div id="chat" class="col-8">
+                <form id="loginUser" action="#">
+                    <div>
+                        <input v-if="this.pseudo == ''" v-on:keyup.enter="loginUser(pseudo)" type="text"
+                            v-model="pseudoEdit" id="formpseudo" placeholder="Choisir votre pseudo ...">
+                        <span v-if="this.pseudo !== ''">Bienvenue </span> <span><strong>{{this.pseudo}}</strong></span>
+                        <a href="#" v-if="this.pseudo !== ''" @click="logoutUser(this.pseudo)">Déconnexion</a>
+                    </div>
+
+
+
+                    <div id="listingMessage">
+                        <ul>
+                            <li
+                                v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)">
+                                <span><strong>{{pseudo}}</strong> - {{dateMsg}}</span><br>
+                                <span class="userMessage"></span>{{msg}}</span>
+                                <i title="Editer ce message" @click="editMessage(idMsg, msg)" class="fas fa-edit"></i>
+                                <i title="Effacer ce message" @click="deleteMessage(idMsg)" class="fas fa-times"></i>
+                                <input v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit" v-focus
+                                    v-on:keyup.enter="validInputEditMessage(idMsg, edit)">
+
+
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="boxMessage">
+                        <textarea v-focus v-on:keyup.enter="addMessage(pseudo,msg,dateMsg)" v-model="msg" cols="27"
+                            rows="3" placeholder="Envoyer un message ..."></textarea>
+                        <i @click="addMessage(pseudo,msg,dateMsg)" class="fas fa-paper-plane"></i>
+                    </div>
+                    <!-- <button @click="addMessage(pseudo,msg,dateMsg)" type="button">Envoyer le message</button> -->
+                </form>
+
+
+
+
+
+            </div>
+
+            <div id="usersConnected" class="">
                 <ul>
                     <li v-for="({pseudo, idUser}, index) in listUsers">
                         <a @click="privateSalon(idUser)" href="#">{{pseudo}}</a>
@@ -67,8 +83,10 @@
             </div>
 
 
+
         </div>
     </main>
+
 
     <script src="js/vue.js"></script>
     <script src="js/moment-with-locales.js"></script>

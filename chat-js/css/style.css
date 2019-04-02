@@ -3,34 +3,100 @@
     margin: 0;
     list-style: none;
     box-sizing: border-box;
-
+    color: white;
 }
-
 * i{
     cursor: pointer;
+}
+
+h4{
+    text-indent: 16%;
+}
+body{
+    height: 100vh;
+    /* background: rgb(34, 34, 34); */
+    background: rgb(53, 53, 53);
+}
+a{
+    color: rgb(116, 153, 255);
+    
+}
+a strong{
+    color: rgb(116, 153, 255);
+    
+}
+a:hover{
+    color: rgb(0, 188, 245);
+    
+}
+a strong:hover{
+    color: rgb(0, 188, 245);
     
 }
 
-
-
-#envoyer{
+#loginUser{
+    position: fixed;
+    left: 16%;
+    padding: 0 0 0 10px;
+}
+#currentUser{
+    margin-left: 10px;
+}
+.boxMessage{
+    position: fixed;
+    bottom: 30px;
+    left: calc(16% + 50px);
+    right: 16%;
+}
+input{
+    background: gray;
+    border: none;
+    margin-left: 10px;
+}
+#chat textarea{
+    width: calc(100% - 50px);
+    padding: 10px;
+    background: #434447;
+    border: none;
+}
+.boxMessage i{
     font-size: 2em;
 }
+#listSalon{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 84%;
+    padding: 160px 10px 160px 10px ;
+    background: rgb(34, 34, 34);
+}
+#usersConnected{
+    text-align: left;
+}
+#listingMessage{
+    position: fixed;
+    top: 150px;
+    bottom: 150px;
+    right: 16%;
+    left: 16%;
+    background: rgb(41, 41, 41);
+    padding: 0 10px;
+    overflow-y: hidden; 
+}
+#listingMessage:hover{
+    overflow-y: scroll;
+}
+hr{
+    color: white;
+}
+#usersConnected{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 84%;
+    padding: 160px 10px 160px 20px;
+    background: rgb(34, 34, 34);
+}
 
-#messenger{
-    width: calc(100% - 38px);
-
-}
-.displayPseudo{
-    font-weight: bold;
-}
-.displayMessage{
-    overflow-wrap: break-word;
-
-}
-#textChat{
-    height: 70vh;
-}
-#blocTextArea{
-    height: 20vh;
-}
