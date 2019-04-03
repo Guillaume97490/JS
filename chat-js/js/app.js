@@ -7,7 +7,6 @@ const config = { // Configuration de FireBase
     messagingSenderId: "1091280558423",
 };
 firebase.initializeApp(config);
-
 Vue.directive('focus', { // Enregistrer une directive globale appelée `v-focus`.
     inserted(el) { // Quand l'élément lié est inséré dans le DOM,
         el.focus() // l'élément prend le focus.
@@ -22,26 +21,24 @@ const chatJs = new Vue({
         msg: "",
         msgEdit: "",
         dateMsg: "",
-        salon: "Salon1", // Salon actuel, par défaut est positioné sur le premier.
+        salon: "Salon1", 
         listSalon: ["Salon1", "Salon2", "Salon3"],
         listMessages: [],
         listUsers: [],
         database: firebase.database(),
     },
 
-    created() {
+    created() { 
         this.loadMsg();
         this.loadUsers();
-        this.scrollAuto();
-
     },
 
     methods: {
-        loadMsg() { // Récupère les donnée FireBase,
+        loadMsg() { 
             this.database.ref("listMessages").on('value', (msg) => {
                 this.listMessages = []
                 msg.forEach((data) => {
-                    this.listMessages.push({ // et les ajoutent à la liste des messages.
+                    this.listMessages.push({ 
                         idMsg: data.child('idMsg').val(),
                         salon: data.child('salon').val(),
                         pseudo: data.child('pseudo').val(),
@@ -49,15 +46,17 @@ const chatJs = new Vue({
                         edit: data.child('edit').val(),
                         dateMsg: data.child('dateMsg').val(),
                     });
+                    this.scrollAuto();
                 });
+
             });
         },
 
-        loadUsers() {
+        loadUsers() { 
             this.database.ref("listUsers").on('value', (pseudo) => {
                 this.listUsers = []
                 pseudo.forEach((data) => {
-                    this.listUsers.push({ // et les ajoutent à la liste des messages.
+                    this.listUsers.push({ 
                         idUser: data.child('idUser').val(),
                         pseudo: data.child('pseudo').val(),
                     });
@@ -83,7 +82,7 @@ const chatJs = new Vue({
                 this.pseudo = this.pseudoEdit;
                 const myRef = this.database.ref().push(); // génère un ID unique,
                 const key = myRef.key;
-                this.database.ref("listUsers").push({ //  et envoient les données vers FireBase.
+                this.database.ref("listUsers").push({ 
                     idUser: key,
                     pseudo: this.pseudo,
                 });
@@ -93,23 +92,29 @@ const chatJs = new Vue({
         },
         logoutUser(pseudo) {
             pseudo = this.pseudo;
-            const ref = this.database.ref('listUsers');
-            ref.orderByChild('pseudo').equalTo(pseudo).on("value", snapshot => { // Récupère l'ID unique FireBase.
+            this.database.ref('listUsers').orderByChild('pseudo').equalTo(pseudo).on("value", snapshot => { // Récupère l'ID unique FireBase.
                 snapshot.forEach((child => {
                     firebase.database().ref('listUsers').child(child.key).remove(); // Supprime d'apres l'ID unique.
                 }));
             });
             this.pseudo = "";
         },
-        privateSalon(idUser) { // A FAIRE 
-            /* alert(idUser)
-            var ref = firebase.database().ref('listUsers');
-            ref.orderByChild('pseudo').equalTo(pseudo).on("value", function (snapshot) { // Récupère l'ID unique FireBase.
-                snapshot.forEach((function (child) {
-                    console.log(child.key)
-                    // firebase.database().ref('listUsers').child(child.key).remove(); // Supprime d'apres l'ID unique.
+
+        privateSalon(idUser) { // A CONTINUER 
+            // alert(idUser)
+
+            this.database.ref('listUsers').orderByChild('idUser').equalTo(idUser).on("value", snapshot => {
+                snapshot.forEach((child => {
+                    firebase.database().ref('listUsers').child(child.key).child('pseudo')
+                    var userB = child.child('pseudo').val()
+                    if (userB > this.pseudo) {
+                        alert(this.pseudo + userB)
+                    };
+                    if (userB < this.pseudo) {
+                        alert(userB + this.pseudo)
+                    };
                 }));
-            }); */
+            });
         },
 
         addMessage() {
@@ -117,8 +122,7 @@ const chatJs = new Vue({
             if (this.pseudo !== '' && this.msg !== '') { // Verifie que le Peuso et le message ne soit pas vide,
                 const myRef = this.database.ref().push(); // génère un ID unique,
                 const key = myRef.key;
-
-                this.database.ref('listMessages').push({ //  et envoient les données vers FireBase.
+                this.database.ref('listMessages').push({
                     idMsg: key,
                     salon: this.salon,
                     edit: '',
@@ -132,15 +136,21 @@ const chatJs = new Vue({
         },
 
         deleteMessage(idMsg) {
+
+            // A VOIR : POUR QUE LES USERS NE PEUVENT SUPPRIMER QUE LEURS MESSAGES
+
             const ref = this.database.ref('listMessages');
             ref.orderByChild('idMsg').equalTo(idMsg).on("value", snapshot => { // Récupère l'ID unique FireBase.
                 snapshot.forEach((child => {
-                    firebase.database().ref('listMessages').child(child.key).remove(); // Supprime le message d'apres l'ID unique.
+                    firebase.database().ref('listMessages').child(child.key).remove();
                 }));
             });
         },
 
         editMessage(idMsg, msg) {
+
+            // A VOIR : POUR QUE LES USERS NE PEUVENT EDITER QUE LEURS MESSAGES
+
             this.msgEdit = msg;
             const ref = this.database.ref('listMessages');
             ref.orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
@@ -167,12 +177,12 @@ const chatJs = new Vue({
             });
         },
         scrollAuto() {
-            setTimeout(function () { // Attendre le rafraichissement du DOM pour l'autoscroll
-                const el = document.getElementById('listingMessage');
-                el.scrollTop = el.scrollHeight;
-
-            }, 100);
-
+            if (this.pseudo !== "") {
+                setTimeout(() => { // Attendre le rafraichissement du DOM pour l'autoscroll
+                    var el = document.getElementById('listingMessage');
+                    el.scrollTop = el.scrollHeight;
+                }, 100);
+            };
         },
     },
 });

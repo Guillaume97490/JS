@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        
     <title>chat-js</title>
 </head>
 
@@ -56,17 +57,15 @@
 
 
                     <div id="listingMessage">
-                        <ul id="test">
+                        <ul>
                             <li
                                 v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)">
-                                <span><strong>{{pseudo}}</strong> - {{dateMsg}}</span><br>
+                                <span><strong>{{pseudo}}</strong> - <span>{{dateMsg}}</span></span><br>
                                 <span class="userMessage"></span>{{msg}}</span>
                                 <i title="Editer ce message" @click="editMessage(idMsg, msg)" class="fas fa-edit"></i>
                                 <i title="Effacer ce message" @click="deleteMessage(idMsg)" class="fas fa-times"></i>
                                 <input v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit" v-focus
                                     v-on:keyup.enter="validInputEditMessage(idMsg, edit)">
-
-
                                 <hr>
                             </li>
                         </ul>
@@ -77,10 +76,10 @@
 
                     <div class="boxMessage">
                         <textarea v-focus v-on:keyup.enter="addMessage(pseudo,msg,dateMsg)" v-model="msg" cols="27"
-                            rows="3" placeholder="Envoyer un message ..."></textarea>
+                            rows="2" placeholder="Envoyer un message ..."></textarea>
                         <i @click="addMessage(pseudo,msg,dateMsg)" class="fas fa-paper-plane"></i>
                     </div>
-                    <!-- <button @click="addMessage(pseudo,msg,dateMsg)" type="button">Envoyer le message</button> -->
+            
                 </form>
 
 

@@ -1,116 +1,134 @@
-*{
+* {
     padding: 0;
     margin: 0;
     list-style: none;
     box-sizing: border-box;
     color: white;
 }
-* i{
+
+* i {
     cursor: pointer;
 }
 
-h4{
+h4 {
     text-indent: 16%;
 }
-body{
+
+body {
     height: 100vh;
-    /* background: rgb(34, 34, 34); */
     background: rgb(53, 53, 53);
 }
-#screenLogin{
-    background: rgb(66, 66, 66);
+
+#screenLogin {
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    /* z-index: 2; */
+    background: rgb(66, 66, 66);
     text-align: center;
 }
-.currentSalon{
-    width: 100vw;
+
+.currentSalon {
+    position: fixed;
+    left: 12%;
+    top: 13px;
+    width: 24%;
     padding-left: 10px;
-    
-}
-#screenLogin div{
-   margin-top: 30vh; 
-   
 }
 
-#formPseudo{
+#screenLogin div {
+    margin-top: 30vh;
+}
+
+#formPseudo {
     margin: auto;
     height: 50px;
     padding: 0 10px;
 }
-#userSession{
-    text-indent: 10px;
+
+#userSession {
     position: fixed;
-    left: 16%;
-}
-a{
-    color: rgb(116, 153, 255);
-    
-}
-a strong{
-    color: rgb(116, 153, 255);
-    
-}
-a:hover{
-    color: rgb(0, 188, 245);
-    
-}
-a strong:hover{
-    color: rgb(0, 188, 245);
-    
+    /* left: 16%; */
+    text-indent: 10px;
+    right: 17%;
+    top: 14px;
 }
 
+a {
+    color: rgb(116, 153, 255);
+}
 
-.boxMessage{
+a strong {
+    color: rgb(116, 153, 255);
+}
+
+a:hover {
+    color: rgb(0, 188, 245);
+}
+
+a strong:hover {
+    color: rgb(0, 188, 245);
+}
+
+.boxMessage {
     position: fixed;
     bottom: 30px;
     left: calc(16% + 50px);
     right: 16%;
 }
-input{
+
+input {
     background: gray;
     border: none;
     margin-left: 10px;
 }
-#chat textarea{
+
+#chat textarea {
     width: calc(100% - 50px);
     padding: 10px;
     background: #434447;
     border: none;
 }
-.boxMessage i{
+
+.boxMessage i {
     font-size: 2em;
 }
-#listSalon{
+
+#listSalon {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 84%;
-    padding: 160px 10px 160px 10px ;
+    padding: 160px 10px 160px 10px;
     background: rgb(34, 34, 34);
 }
-#listingMessage{
+#listSalon li{
+    margin: 10px 0
+}
+
+#listingMessage {
     position: fixed;
-    top: 150px;
-    bottom: 150px;
+    top: 56px;
+    bottom: 125px;
     right: 16%;
     left: 16%;
     background: rgb(41, 41, 41);
     padding: 0 10px;
-    overflow-y: hidden; 
+    overflow-y: hidden;
 }
-#listingMessage:hover{
+
+#listingMessage:hover {
     overflow-y: scroll;
 }
-hr{
-    color: white;
+
+hr {
+    background-color: #474747;
+
 }
-#usersConnected{
+
+#usersConnected {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -119,7 +137,4 @@ hr{
     padding: 160px 10px 160px 20px;
     background: rgb(34, 34, 34);
     text-align: left;
-    /* z-index: -1; */
 }
-
-
