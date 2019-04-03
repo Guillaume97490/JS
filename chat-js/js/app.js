@@ -32,6 +32,8 @@ const chatJs = new Vue({
     created() {
         this.loadMsg();
         this.loadUsers();
+        this.scrollAuto();
+
     },
 
     methods: {
@@ -70,6 +72,7 @@ const chatJs = new Vue({
 
         changeSalon(index) {
             this.salon = this.listSalon[index];
+            this.scrollAuto();
         },
 
         loginUser() {
@@ -86,6 +89,7 @@ const chatJs = new Vue({
                 });
             };
             this.pseudoEdit = "";
+            this.scrollAuto();
         },
         logoutUser(pseudo) {
             pseudo = this.pseudo;
@@ -124,6 +128,7 @@ const chatJs = new Vue({
                 });
             };
             this.msg = "";
+            this.scrollAuto();
         },
 
         deleteMessage(idMsg) {
@@ -135,7 +140,7 @@ const chatJs = new Vue({
             });
         },
 
-        editMessage(idMsg, msg) { 
+        editMessage(idMsg, msg) {
             this.msgEdit = msg;
             const ref = this.database.ref('listMessages');
             ref.orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
@@ -160,6 +165,14 @@ const chatJs = new Vue({
                     });
                 }));
             });
+        },
+        scrollAuto() {
+            setTimeout(function () { // Attendre le rafraichissement du DOM pour l'autoscroll
+                const el = document.getElementById('listingMessage');
+                el.scrollTop = el.scrollHeight;
+
+            }, 100);
+
         },
     },
 });

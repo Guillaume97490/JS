@@ -17,6 +17,36 @@ body{
     /* background: rgb(34, 34, 34); */
     background: rgb(53, 53, 53);
 }
+#screenLogin{
+    background: rgb(66, 66, 66);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    /* z-index: 2; */
+    text-align: center;
+}
+.currentSalon{
+    width: 100vw;
+    padding-left: 10px;
+    
+}
+#screenLogin div{
+   margin-top: 30vh; 
+   
+}
+
+#formPseudo{
+    margin: auto;
+    height: 50px;
+    padding: 0 10px;
+}
+#userSession{
+    text-indent: 10px;
+    position: fixed;
+    left: 16%;
+}
 a{
     color: rgb(116, 153, 255);
     
@@ -34,14 +64,7 @@ a strong:hover{
     
 }
 
-#loginUser{
-    position: fixed;
-    left: 16%;
-    padding: 0 0 0 10px;
-}
-#currentUser{
-    margin-left: 10px;
-}
+
 .boxMessage{
     position: fixed;
     bottom: 30px;
@@ -71,9 +94,6 @@ input{
     padding: 160px 10px 160px 10px ;
     background: rgb(34, 34, 34);
 }
-#usersConnected{
-    text-align: left;
-}
 #listingMessage{
     position: fixed;
     top: 150px;
@@ -98,5 +118,8 @@ hr{
     left: 84%;
     padding: 160px 10px 160px 20px;
     background: rgb(34, 34, 34);
+    text-align: left;
+    /* z-index: -1; */
 }
+
 

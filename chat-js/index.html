@@ -17,7 +17,18 @@
 
     <main class="container-fluid">
         <div id="app" class="row">
-            <h4 class="col-12">Salon : <span>{{this.salon}}</span> </h4>
+
+            <div v-if="this.pseudo == ''" id="screenLogin">
+                <div>
+                    <h1>Chat-JS</h1>
+                    <input v-if="this.pseudo == ''" v-on:keyup.enter="loginUser(pseudo)" type="text"
+                        v-model="pseudoEdit" id="formPseudo" placeholder="Choisir votre pseudo ...">
+                </div>
+            </div>
+
+
+            <div id="mainScreen" v-if="this.pseudo !== ''">
+            <h4 class="currentSalon">Salon : <span>{{this.salon}}</span> </h4>
 
 
 
@@ -31,18 +42,21 @@
 
 
             <div id="chat" class="col-8">
-                <form id="loginUser" action="#">
+                <form action="#">
                     <div>
-                        <input v-if="this.pseudo == ''" v-on:keyup.enter="loginUser(pseudo)" type="text"
-                            v-model="pseudoEdit" id="formpseudo" placeholder="Choisir votre pseudo ...">
-                        <span v-if="this.pseudo !== ''">Bienvenue </span> <span><strong>{{this.pseudo}}</strong></span>
-                        <a href="#" v-if="this.pseudo !== ''" @click="logoutUser(this.pseudo)">Déconnexion</a>
+
+
+                        <div id="userSession">
+                            <span v-if="this.pseudo !== ''">Bienvenue </span>
+                            <span><strong>{{this.pseudo}}</strong></span>
+                            <a href="#" v-if="this.pseudo !== ''" @click="logoutUser(this.pseudo)">Déconnexion</a>
+                        </div>
                     </div>
 
 
 
                     <div id="listingMessage">
-                        <ul>
+                        <ul id="test">
                             <li
                                 v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)">
                                 <span><strong>{{pseudo}}</strong> - {{dateMsg}}</span><br>
@@ -56,6 +70,7 @@
                                 <hr>
                             </li>
                         </ul>
+                        <div id="scroll"></div>
                     </div>
 
 
@@ -83,7 +98,7 @@
             </div>
 
 
-
+        </div>
         </div>
     </main>
 
