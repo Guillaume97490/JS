@@ -19,13 +19,13 @@
     <main class="container-fluid">
         <div id="app" class="row">
 
-            <form v-if="this.pseudo == ''" id="screenLogin">
+            <div v-if="this.pseudo == ''" id="screenLogin">
                 <div>
                     <h1>Chat-JS</h1>
                     <input v-focus v-if="this.pseudo == ''" v-on:keyup.enter="loginUser(pseudo)" type="text"
                         v-model="pseudoEdit" id="formPseudo" placeholder="Choisir votre pseudo ...">
                 </div>
-            </form>
+            </div>
 
 
             <div id="mainScreen" v-if="this.pseudo !== ''">
