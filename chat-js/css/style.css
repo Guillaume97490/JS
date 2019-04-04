@@ -49,10 +49,8 @@ body {
 
 #userSession {
     position: fixed;
-    /* left: 16%; */
-    text-indent: 10px;
     right: 17%;
-    top: 14px;
+    top: 3px;
 }
 
 a {
@@ -101,12 +99,32 @@ input {
     bottom: 0;
     left: 0;
     right: 84%;
-    padding: 160px 10px 160px 10px;
+    padding: 160px 0 160px 0;
     background: rgb(34, 34, 34);
 }
-#listSalon li{
-    margin: 10px 0
+
+#listSalon li {
+    margin: 10px 0;
+
+
 }
+
+#listSalon a,
+#listSalon strong {
+    display: block;
+}
+
+#listSalon a:hover,
+#listSalon strong:hover {
+    display: block;
+    background: #3d3b41;
+}
+
+#listSalon a {
+    padding: 6px 10px;
+}
+
+
 
 #listingMessage {
     position: fixed;
@@ -121,6 +139,7 @@ input {
 
 #listingMessage:hover {
     overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 hr {
@@ -137,4 +156,40 @@ hr {
     padding: 160px 10px 160px 20px;
     background: rgb(34, 34, 34);
     text-align: left;
+}
+
+.groupBtnMsg {
+    float: right;
+}
+
+.groupBtnMsg>i {
+    color: #717171;
+    font-size: large;
+}
+#deleteBtn{
+    margin-left: 10px;
+}
+
+
+#deleteBtn:hover {
+    color: firebrick;
+}
+
+#editBtn:hover {
+    color: seagreen;
+}
+
+#pseudoInChat {
+    font-weight: bolder;
+    color: goldenrod;
+    font-size: x-large;
+}
+
+#logoutLink {
+    display: block;
+    text-align: right;
+}
+
+#dateInChat {
+    color: slategray;
 }

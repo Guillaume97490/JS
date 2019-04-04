@@ -25,6 +25,7 @@ const chatJs = new Vue({
         listSalon: ["Salon1", "Salon2", "Salon3"],
         listMessages: [],
         listUsers: [],
+        pseudoExist: "",
         database: firebase.database(),
     },
 
@@ -76,62 +77,34 @@ const chatJs = new Vue({
 
         loginUser() {
 
-            // A TERMINER : vérifier que le pseudo n'existe pas déja dans FireBase
+            // vérifie que le pseudo n'existe pas déja dans FireBase.
+            this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).on("value", snapshot => {
+                snapshot.forEach((child => {
+                    firebase.database().ref('listUsers').child(child.key).child('pseudo');
+                    this.pseudoExist = child.child('pseudo').val();
+                }));
 
+                if (this.pseudoExist == this.pseudoEdit) {
+                    alert("ce pseudo éxiste déja !");
+                    this.pseudoExist = ""
 
+                } else if (this.pseudoEdit !== '') {
+                    this.pseudoExist = ""
+                    this.pseudo = this.pseudoEdit;
+                    this.pseudoEdit = ""
+                    const myRef = this.database.ref().push(); // génère un ID unique,
+                    const key = myRef.key;
+                    this.database.ref("listUsers").push({
+                        idUser: key,
+                        pseudo: this.pseudo,
+                    });
+                };
 
-            // this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).on("value", snapshot => {
-            //     snapshot.forEach((child => {
-            //         firebase.database().ref('listUsers').child(child.key).child('pseudo');
-            //         var sameUser = child.child('pseudo').val();
-            //         // alert(sameUser);
-
-            //         if (sameUser == this.pseudoEdit) {
-            //             alert("ce pseudo éxiste déja !")
-
-            //         } else if (this.pseudoEdit !== '') {
-            //             alert("test aab")
-            //             this.pseudo = this.pseudoEdit;
-            //             const myRef = this.database.ref().push(); // génère un ID unique,
-            //             const key = myRef.key;
-            //             this.database.ref("listUsers").push({
-            //                 idUser: key,
-            //                 pseudo: this.pseudo,
-            //             });
-            //         };
-
-
-
-
-            //     }));
-            //     this.pseudoEdit = "";
-            //     this.scrollAuto();
-            // });
-
-
-
-
-
-
-
-
-
-
-
-
-
-            if (this.pseudoEdit !== '') {
-                this.pseudo = this.pseudoEdit;
-                const myRef = this.database.ref().push(); // génère un ID unique,
-                const key = myRef.key;
-                this.database.ref("listUsers").push({ 
-                    idUser: key,
-                    pseudo: this.pseudo,
-                });
-            };
-            this.pseudoEdit = "";
-            this.scrollAuto();
+                this.pseudoEdit = "";
+                this.scrollAuto();
+            });
         },
+
         logoutUser(pseudo) {
             pseudo = this.pseudo;
             this.database.ref('listUsers').orderByChild('pseudo').equalTo(pseudo).on("value", snapshot => { // Récupère l'ID unique FireBase.
@@ -139,6 +112,8 @@ const chatJs = new Vue({
                     firebase.database().ref('listUsers').child(child.key).remove(); // Supprime d'apres l'ID unique.
                 }));
             });
+            this.pseudo = "";
+            this.pseudoExist = "";
             this.pseudo = "";
         },
 
@@ -171,47 +146,42 @@ const chatJs = new Vue({
                 this.database.ref('listMessages').push({
                     idMsg: key,
                     salon: this.salon,
-                    edit: '',
                     dateMsg: moment().local('fr').format("[Le] DD MMMM YYYY, à HH:mm:ss"),
                     pseudo: this.pseudo,
                     msg: this.msg,
+                    edit: '',
                 });
             };
             this.msg = "";
             this.scrollAuto();
         },
 
-        deleteMessage(idMsg) {
-
-            // A VOIR : POUR QUE LES USERS NE PEUVENT SUPPRIMER QUE LEURS MESSAGES
-
-            const ref = this.database.ref('listMessages');
-            ref.orderByChild('idMsg').equalTo(idMsg).on("value", snapshot => { // Récupère l'ID unique FireBase.
-                snapshot.forEach((child => {
-                    firebase.database().ref('listMessages').child(child.key).remove();
-                }));
-            });
+        deleteMessage(idMsg, pseudo) { 
+            if (pseudo === this.pseudo) {
+                this.database.ref('listMessages').orderByChild('idMsg').equalTo(idMsg).on("value", snapshot => { // Récupère l'ID unique FireBase.
+                    snapshot.forEach((child => {
+                        firebase.database().ref('listMessages').child(child.key).remove();
+                    }));
+                });
+            } else{alert("Désolé, seul l'auteur de ce message est en mesure de le supprimer")} ;
         },
 
-        editMessage(idMsg, msg) {
-
-            // A VOIR : POUR QUE LES USERS NE PEUVENT EDITER QUE LEURS MESSAGES
-
-            this.msgEdit = msg;
-            const ref = this.database.ref('listMessages');
-            ref.orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
-                snapshot.forEach((child => {
-                    firebase.database().ref('listMessages').child(child.key).update({ // Modifie la valeur sur FireBase
-                        edit: true
-                    });
-                }));
-            });
+        editMessage(idMsg, msg, pseudo) {
+             if (pseudo == this.pseudo) {
+                this.msgEdit = msg;
+                this.database.ref('listMessages').orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
+                    snapshot.forEach((child => {
+                        firebase.database().ref('listMessages').child(child.key).update({ // Modifie la valeur sur FireBase
+                            edit: true
+                        });
+                    }));
+                });
+             }else{ alert("Désolé, seul l'auteur de ce message est en mesure de l'éditer") };
         },
 
         validInputEditMessage(idMsg) {
             const editedMsg = this.msgEdit;
-            const ref = this.database.ref('listMessages');
-            ref.orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
+            this.database.ref('listMessages').orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
                 snapshot.forEach((child => {
                     firebase.database().ref('listMessages').child(child.key).update({
                         msg: editedMsg
