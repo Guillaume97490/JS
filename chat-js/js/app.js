@@ -21,24 +21,24 @@ const chatJs = new Vue({
         msg: "",
         msgEdit: "",
         dateMsg: "",
-        salon: "Salon1", 
+        salon: "Salon1",
         listSalon: ["Salon1", "Salon2", "Salon3"],
         listMessages: [],
         listUsers: [],
         database: firebase.database(),
     },
 
-    created() { 
+    created() {
         this.loadMsg();
         this.loadUsers();
     },
 
     methods: {
-        loadMsg() { 
+        loadMsg() {
             this.database.ref("listMessages").on('value', (msg) => {
                 this.listMessages = []
                 msg.forEach((data) => {
-                    this.listMessages.push({ 
+                    this.listMessages.push({
                         idMsg: data.child('idMsg').val(),
                         salon: data.child('salon').val(),
                         pseudo: data.child('pseudo').val(),
@@ -52,11 +52,11 @@ const chatJs = new Vue({
             });
         },
 
-        loadUsers() { 
+        loadUsers() {
             this.database.ref("listUsers").on('value', (pseudo) => {
                 this.listUsers = []
                 pseudo.forEach((data) => {
-                    this.listUsers.push({ 
+                    this.listUsers.push({
                         idUser: data.child('idUser').val(),
                         pseudo: data.child('pseudo').val(),
                     });
@@ -76,7 +76,49 @@ const chatJs = new Vue({
 
         loginUser() {
 
-            // A voir : vérifier que le pseudo n'existe pas déja dans FireBase
+            // A TERMINER : vérifier que le pseudo n'existe pas déja dans FireBase
+
+
+
+            // this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).on("value", snapshot => {
+            //     snapshot.forEach((child => {
+            //         firebase.database().ref('listUsers').child(child.key).child('pseudo');
+            //         var sameUser = child.child('pseudo').val();
+            //         // alert(sameUser);
+
+            //         if (sameUser == this.pseudoEdit) {
+            //             alert("ce pseudo éxiste déja !")
+
+            //         } else if (this.pseudoEdit !== '') {
+            //             alert("test aab")
+            //             this.pseudo = this.pseudoEdit;
+            //             const myRef = this.database.ref().push(); // génère un ID unique,
+            //             const key = myRef.key;
+            //             this.database.ref("listUsers").push({
+            //                 idUser: key,
+            //                 pseudo: this.pseudo,
+            //             });
+            //         };
+
+
+
+
+            //     }));
+            //     this.pseudoEdit = "";
+            //     this.scrollAuto();
+            // });
+
+
+
+
+
+
+
+
+
+
+
+
 
             if (this.pseudoEdit !== '') {
                 this.pseudo = this.pseudoEdit;
@@ -100,18 +142,22 @@ const chatJs = new Vue({
             this.pseudo = "";
         },
 
-        privateSalon(idUser) { // A CONTINUER 
-            // alert(idUser)
-
+        privateSalon(idUser) {
             this.database.ref('listUsers').orderByChild('idUser').equalTo(idUser).on("value", snapshot => {
                 snapshot.forEach((child => {
-                    firebase.database().ref('listUsers').child(child.key).child('pseudo')
-                    var userB = child.child('pseudo').val()
+                    firebase.database().ref('listUsers').child(child.key).child('pseudo');
+                    var userB = child.child('pseudo').val();
+
                     if (userB > this.pseudo) {
-                        alert(this.pseudo + userB)
+                        this.listSalon.push(this.pseudo + " et " + userB);
+                        this.salon = this.pseudo + " et " + userB;
+                        this.scrollAuto();
                     };
+
                     if (userB < this.pseudo) {
-                        alert(userB + this.pseudo)
+                        this.listSalon.push(userB + " et " + this.pseudo);
+                        this.salon = userB + " et " + this.pseudo;
+                        this.scrollAuto();
                     };
                 }));
             });
