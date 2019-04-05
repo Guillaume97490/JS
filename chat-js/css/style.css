@@ -20,11 +20,6 @@ body {
 }
 
 #screenLogin {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
     background: rgb(66, 66, 66);
     text-align: center;
 }
@@ -35,10 +30,6 @@ body {
     top: 13px;
     width: 24%;
     padding-left: 10px;
-}
-
-#screenLogin div {
-    margin-top: 30vh;
 }
 
 #formPseudo {
@@ -166,7 +157,8 @@ hr {
     color: #717171;
     font-size: large;
 }
-#deleteBtn{
+
+#deleteBtn {
     margin-left: 10px;
 }
 
@@ -192,4 +184,47 @@ hr {
 
 #dateInChat {
     color: slategray;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+    {
+    opacity: 0;
+}
+
+@media screen and (max-width: 500px){
+    #listSalon{
+        transform: translate(-100%);
+        left: initial;
+    }
+    #usersConnected{
+        transform: translateX(100%);
+        left: initial;
+    }
+    #listingMessage{
+        left: 0%;
+        right: 0%;
+    }
+    .boxMessage{
+        left: 1%;
+        right: 1%;
+    }
+    .boxMessage i {
+        display: none;
+    }
+    #chat textarea {
+        width: 100%;
+    }
+    body > h1{
+        display: none;
+    }
+
+
 }

@@ -33,11 +33,14 @@ const chatJs = new Vue({
         this.loadMsg();
         this.loadUsers();
     },
+    mounted(){
+
+    },
 
     methods: {
         loadMsg() {
             this.database.ref("listMessages").on('value', (msg) => {
-                this.listMessages = []
+                this.listMessages = [];
                 msg.forEach((data) => {
                     this.listMessages.push({
                         idMsg: data.child('idMsg').val(),
@@ -55,7 +58,7 @@ const chatJs = new Vue({
 
         loadUsers() {
             this.database.ref("listUsers").on('value', (pseudo) => {
-                this.listUsers = []
+                this.listUsers = [];
                 pseudo.forEach((data) => {
                     this.listUsers.push({
                         idUser: data.child('idUser').val(),
@@ -115,6 +118,14 @@ const chatJs = new Vue({
             this.pseudo = "";
             this.pseudoExist = "";
             this.pseudo = "";
+
+            setTimeout(() => { // Attendre le rafraichissement du DOM pour l'autoscroll
+                window.location.reload()
+            }, 100);
+
+
+
+
         },
 
         privateSalon(idUser) {
@@ -156,18 +167,20 @@ const chatJs = new Vue({
             this.scrollAuto();
         },
 
-        deleteMessage(idMsg, pseudo) { 
+        deleteMessage(idMsg, pseudo) {
             if (pseudo === this.pseudo) {
                 this.database.ref('listMessages').orderByChild('idMsg').equalTo(idMsg).on("value", snapshot => { // Récupère l'ID unique FireBase.
                     snapshot.forEach((child => {
                         firebase.database().ref('listMessages').child(child.key).remove();
                     }));
                 });
-            } else{alert("Désolé, seul l'auteur de ce message est en mesure de le supprimer")} ;
+            } else {
+                alert("Désolé, seul l'auteur de ce message est en mesure de le supprimer")
+            };
         },
 
         editMessage(idMsg, msg, pseudo) {
-             if (pseudo == this.pseudo) {
+            if (pseudo == this.pseudo) {
                 this.msgEdit = msg;
                 this.database.ref('listMessages').orderByChild('idMsg').equalTo(idMsg).once("value", snapshot => {
                     snapshot.forEach((child => {
@@ -176,7 +189,9 @@ const chatJs = new Vue({
                         });
                     }));
                 });
-             }else{ alert("Désolé, seul l'auteur de ce message est en mesure de l'éditer") };
+            } else {
+                alert("Désolé, seul l'auteur de ce message est en mesure de l'éditer")
+            };
         },
 
         validInputEditMessage(idMsg) {
