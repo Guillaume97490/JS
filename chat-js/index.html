@@ -7,49 +7,90 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-database.js"></script>
-
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
     <title>chat-js</title>
 </head>
 
 <body>
-    <h1 class="text-center">chat-js</h1>
+    <h1 class="text-center">Chat-js</h1>
 
     <main class="container-fluid">
         <div id="app" class="row">
 
-            <transition v-if="this.pseudo == ''" name="fade">
-                <div class="fixed-top d-flex justify-content-center align-items-center h-100 w-100" id="screenLogin">
-                    <div>
-                        <h1>Chat-JS</h1>
-                        <input v-focus v-if="this.pseudo == ''" v-on:keyup.enter="loginUser(pseudo)" type="text"
-                            v-model="pseudoEdit" id="formPseudo" placeholder="Choisir votre pseudo ...">
-                    </div>
+
+            <transition v-if="this.pseudo == ''" key="this.pseudo == ''" name="fade" mode="out-in">
+                <div class="fixed-top d-flex flex-column justify-content-center align-items-center h-100 w-100"
+                    id="screenLogin">
+                    <h1>Chat-JS</h1>
+
+
+                    <!-- CONNECTION -->
+
+                    <transition appear name="fade" mode="out-in">
+                        <form v-if="this.switchFormLogin === true" key="switchFormLogin === true" id="connection"
+                            action="javascript:;">
+                            <div><i class="fas fa-user"></i></div>
+                            <!-- <label for="Pseudo">Pseudo</label> -->
+                            <input v-focus v-if="this.pseudo == ''" name="Pseudo" v-on:keyup.enter="connectUser(pseudo)"
+                                type="text" required v-model="pseudoEdit" id="formPseudo" title="Votre pseudo"
+                                placeholder="Nom d'utilisateur"><br><br>
+                            <!-- <label for="Password">Mot de passe</label> -->
+                            <input type="password" title="Votre mot de passe" name="Password" required
+                                v-on:keyup.enter="connectUser(pseudo)" v-model=passwordEdit id="formPassword"
+                                placeholder="Mot de passe"><br>
+                            <span v-show="this.pseudoEdit == ''" id="errorConnect"></span><br>
+                            <button id="btnConnect" @click="connectUser(pseudo)" type="submit">Se connecter</button><br>
+                            <a class="linkSwitchForm" @click="switchFormLogin = false" href="#">S'enregistrer</a>
+                        </form>
+
+
+
+                        <!-- iNSCRIPTION -->
+
+                        <form v-if="this.switchFormLogin === false" key="this.switchFormLogin === false"
+                            id="inscription" action="javascript:;">
+                            <div><i id="userPlus" class="fas fa-user-plus"></i></div>
+                            <!-- <label for="Pseudo">Pseudo</label> -->
+                            <input v-focus v-if="this.pseudo == ''" name="Pseudo"
+                                v-on:keyup.enter="inscriptionUser(pseudo)" type="text" required v-model="pseudoEdit"
+                                id="formPseudo" title="Votre pseudo" placeholder="Choisir un nom d'utilisateur"><br><br>
+                            <!-- <label for="Password">Mot de passe</label> -->
+                            <input type="password" title="Votre mot de passe" name="Password" required
+                                v-on:keyup.enter="inscriptionUser(pseudo)" v-model=passwordEdit id="formPassword"
+                                placeholder="Choisir un mot de passe"><br>
+                            <span v-show="this.pseudoEdit == ''" id="errorInscription"></span><br>
+                            <button id="btnConnect" @click="inscriptionUser(pseudo)"
+                                type="submit">S'enregistrer</button><br>
+                            <a class="linkSwitchForm" @click="switchFormLogin = true" href="#">Vous avez déja un compte
+                                ?</a>
+                        </form>
+                    </transition>
+
                 </div>
+
             </transition>
 
-            <transition name="fade">
-
-            
-            <div id="mainScreen" v-if="this.pseudo !== ''">
-                
-                <h4 class="currentSalon"><span>{{this.salon}}</span></h4>
+            <transition name="fade" appear mode="out-in">
 
 
+                <div id="mainScreen" v-if="this.pseudo !== ''" key="this.pseudo !== ''">
 
-                <div id="listSalon" class="">
-                    <ul>
-                        <li v-for="(linkSalon, index) in listSalon">
-                            <a @click="changeSalon(index)" href="#"><strong>{{linkSalon}}</strong></a>
-                        </li>
-                    </ul>
-                </div>
+                    <h4 class="currentSalon"><span>{{this.salon}}</span></h4>
 
-                
+
+
+                    <div id="listSalon" class="">
+                        <ul>
+                            <li v-for="(linkSalon, index) in listSalon">
+                                <a @click="changeSalon(index)" href="#"><strong>{{linkSalon}}</strong></a>
+                            </li>
+                        </ul>
+                    </div>
+
+
                     <div id="chat" class="col-8">
                         <form action="#">
                             <div>
@@ -66,26 +107,29 @@
 
 
                             <div id="listingMessage">
-                                <ul>
-                                    <li
-                                        v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)">
+                                <!-- <ul> -->
+                                <transition-group name="fade" mode="out-in" tag="ul">
+                                    <li v-for="({salon, idMsg, pseudo, msg, edit, dateMsg}, index) in filtreSalon(listMessages, salon)"
+                                        :key="idMsg">
                                         <span><strong id="pseudoInChat">{{pseudo}}</strong> - <span
                                                 id="dateInChat">{{dateMsg}}</span></span><br>
+
+                                        <textarea v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit"
+                                            v-focus v-on:keydown.enter="validInputEditMessage(idMsg, edit)"></textarea>
                                         <span class="userMessage"></span id="msgInChat">{{msg}}</span>
                                         <div class="groupBtnMsg">
                                             <i id="editBtn" title="Editer ce message"
-                                                @click="editMessage(idMsg, msg, pseudo)" class="fas fa-edit"></i>
+                                                @click="editMessage(idMsg, msg, pseudo, index)" class="fas fa-edit"></i>
                                             <i id="deleteBtn" title="Effacer ce message"
                                                 @click="deleteMessage(idMsg, pseudo)" class="fas fa-times"></i>
                                         </div>
-                                        <input v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit"
-                                            v-focus v-on:keyup.enter="validInputEditMessage(idMsg, edit)">
+
                                         <hr>
                                     </li>
-                                </ul>
+                                </transition-group>
+                                <!-- </ul> -->
                                 <div id="scroll"></div>
                             </div>
-
 
 
                             <div class="boxMessage">
@@ -96,37 +140,41 @@
 
                         </form>
 
+                    </div>
 
 
+                    <div id="usersConnected" class="">
+                        <p class="text-center">En ligne</p>
+                        <ul id="usersOnLine">
+                            <li v-for="({pseudo, enLigne, idUser}, index) in listUsers" v-if="enLigne === true"
+                                :key="pseudo">
+                                <a v-if="enLigne === true" :title="'Discuter avec ' + pseudo" @click="privateSalon(idUser)" href="#">{{pseudo}}</a>
+                            </li>
+                        </ul>
 
+                        <p class="text-center">Hors ligne</p>
+                        <ul id="userOffLine">
+                            <li v-for="({pseudo, enLigne, idUser}, index) in listUsers" v-if="enLigne === false"
+                                :key="pseudo">
+                                <a v-if="enLigne === false" :title="pseudo + ' est hors-ligne'" @click="privateSalon(idUser)" href="#">{{pseudo}}</a>
+                            </li>
+                        </ul>
 
                     </div>
-                
 
-                <div id="usersConnected" class="">
-                    <ul>
-                        <li v-for="({pseudo, idUser}, index) in listUsers">
-                            <a @click="privateSalon(idUser)" href="#">{{pseudo}}</a>
-                        </li>
-                    </ul>
                 </div>
-
-
-            </div>
-        </transition>
-
-
+            </transition>
 
         </div>
     </main>
-
 
     <script src="js/vue.js"></script>
     <script src="js/moment-with-locales.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.bundle.js"></script>
-    
+    <script src="js/md5.js"></script>
     <script src="js/app.js"></script>
+
 </body>
 
 </html>

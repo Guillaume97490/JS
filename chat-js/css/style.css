@@ -24,6 +24,20 @@ body {
     text-align: center;
 }
 
+#screenLogin i {
+    font-size: 8vw;
+    color: #7e7e7e;
+    margin-bottom: 3vmin;
+    
+}
+#screenLogin #userPlus{
+    margin-left: 3vw;
+}
+
+#screenLogin h1 {
+    margin-bottom: 3vmin;
+}
+
 .currentSalon {
     position: fixed;
     left: 12%;
@@ -32,11 +46,33 @@ body {
     padding-left: 10px;
 }
 
-#formPseudo {
+#formPseudo,
+#formPassword {
     margin: auto;
     height: 50px;
     padding: 0 10px;
+
+    font-size: x-large;
+    text-align: center;
+    background: none;
+    border: none;
+    border-bottom: solid #747474;
 }
+
+#formPassword {
+    margin-bottom: 20px;
+}
+
+#formPseudo:focus,
+#formPassword:focus {
+    border-color: #9f8845;
+}
+
+input:required,
+textarea:required {
+    border-color: red;
+}
+
 
 #userSession {
     position: fixed;
@@ -90,8 +126,14 @@ input {
     bottom: 0;
     left: 0;
     right: 84%;
-    padding: 160px 0 160px 0;
+    padding: 160px 0;
     background: rgb(34, 34, 34);
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+#listSalon ul {
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    padding: 20px 0;
 }
 
 #listSalon li {
@@ -112,7 +154,9 @@ input {
 }
 
 #listSalon a {
-    padding: 6px 10px;
+    padding: 6px 20px;
+    font-size: 1.3em;
+    text-decoration: none;
 }
 
 
@@ -126,6 +170,7 @@ input {
     background: rgb(41, 41, 41);
     padding: 0 10px;
     overflow-y: hidden;
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.29);
 }
 
 #listingMessage:hover {
@@ -144,9 +189,14 @@ hr {
     bottom: 0;
     right: 0;
     left: 84%;
-    padding: 160px 10px 160px 20px;
+    padding: 160px 0;
     background: rgb(34, 34, 34);
     text-align: left;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+#usersConnected a{
+    text-decoration: none;
 }
 
 .groupBtnMsg {
@@ -199,30 +249,119 @@ hr {
     opacity: 0;
 }
 
-@media screen and (max-width: 500px){
-    #listSalon{
+.fade2-enter-active,
+.fade2-leave-active {
+    transition: opacity .5s;
+}
+
+.fade2-enter,
+.fade2-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+    {
+    opacity: 0;
+}
+
+#errorConnect, #errorInscription {
+    color: red;
+    font-weight: bold;
+}
+
+#btnConnect {
+    width: 322px;
+    border: none;
+    height: 50px;
+    background: cornflowerblue;
+    font-family: sans serif;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+#btnConnect:hover {
+    background: rgb(64, 105, 180);
+}
+
+.linkSwitchForm{
+    margin-top: 20px;;
+}
+
+.bounce-enter-active {
+    animation: bounce-in .5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in .5s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: translateX(0px);
+      /* scale(0); */
+    }
+    50% {
+      transform: translateX(20%);
+      /* scale(1.5); */
+    }
+    100% {
+      transform: translateX(10%);
+      /* scale(1); */
+    }
+  }
+  
+#usersOnLine li, #userOffLine li{
+      font-size: 1.5em;
+      list-style: inside;
+}
+
+#usersOnLine{
+    padding: 0 20px;
+    box-shadow: 0px 0px 12px 0px rgba(6, 5, 5, 0.75);
+}
+#usersOnLine li{
+   color: #5ece4d;
+}
+
+#userOffLine{
+    box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.46);
+    padding: 0 20px;
+}
+#userOffLine li{
+    color: #ce4d4d;
+}
+#userOffLine a{
+    color: rgb(80, 80, 80);
+}
+
+
+@media screen and (max-width: 500px) {
+    #listSalon {
         transform: translate(-100%);
         left: initial;
     }
-    #usersConnected{
+
+    #usersConnected {
         transform: translateX(100%);
         left: initial;
     }
-    #listingMessage{
+
+    #listingMessage {
         left: 0%;
         right: 0%;
+        
     }
-    .boxMessage{
+
+    .boxMessage {
         left: 1%;
         right: 1%;
     }
+
     .boxMessage i {
         display: none;
     }
+
     #chat textarea {
         width: 100%;
     }
-    body > h1{
+
+    body>h1 {
         display: none;
     }
 
