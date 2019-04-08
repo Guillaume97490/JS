@@ -114,6 +114,7 @@ input {
     padding: 10px;
     background: #434447;
     border: none;
+    resize: none;
 }
 
 .boxMessage i {

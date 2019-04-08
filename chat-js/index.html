@@ -115,7 +115,7 @@
                                                 id="dateInChat">{{dateMsg}}</span></span><br>
 
                                         <textarea v-if="edit == true" type="text" class="modifyInput" v-model="msgEdit"
-                                            v-focus v-on:keydown.enter="validInputEditMessage(idMsg, edit)"></textarea>
+                                            v-focus v-on:keydown.enter="validInputEditMessage(idMsg, edit)" v-on:keyup.enter="edit = false"></textarea>
                                         <span class="userMessage"></span id="msgInChat">{{msg}}</span>
                                         <div class="groupBtnMsg">
                                             <i id="editBtn" title="Editer ce message"
@@ -133,7 +133,7 @@
 
 
                             <div class="boxMessage">
-                                <textarea v-focus v-on:keyup.enter="addMessage(pseudo,msg,dateMsg)" v-model="msg"
+                                <textarea v-focus v-on:keydown.enter="addMessage(pseudo,msg,dateMsg)" v-on:keyup.enter="msg=''" v-model="msg"
                                     cols="27" rows="2" placeholder="Envoyer un message ..."></textarea>
                                 <i @click="addMessage(pseudo,msg,dateMsg)" class="fas fa-paper-plane"></i>
                             </div>
