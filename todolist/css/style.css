@@ -136,3 +136,12 @@ footer{
     right: 0;
     background: white;
 }
+
+@media screen and (max-width: 500px){
+    main{
+        padding: 0 !important;
+    }
+    body{
+        padding: 0 !important;
+    }
+}
