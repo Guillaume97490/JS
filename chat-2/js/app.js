@@ -53,10 +53,10 @@ const chatJs = new Vue({
                 
             });
 
-            setTimeout(() => {
-                this.inscriptionUser()
-            }, 500);
-            // this.inscriptionUser()
+            
+            this.inscriptionUser()
+            
+            
         },
         
         connectWithEmail(){
@@ -66,10 +66,10 @@ const chatJs = new Vue({
                 });
 
 
-                setTimeout(() => {
-                    this.connectUser()
-                }, 500);
-                // this.connectUser()
+                
+                this.connectUser()
+                
+                
 
         },
         signOut(){

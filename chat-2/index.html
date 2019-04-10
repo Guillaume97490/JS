@@ -72,7 +72,7 @@
                                 v-on:keyup.enter="inscriptionUser(pseudo)" v-model=passwordEdit id="formPassword"
                                 placeholder="Choisir un mot de passe"><br>
                             <span v-show="this.pseudoEdit == ''" id="errorInscription"></span><br>
-                            <button id="btnConnect" @click="inscriptionUser(pseudo)"
+                            <button id="btnConnect" @click="inscriptionWithEmail()"
                                 type="submit">S'enregistrer</button><br>
                             <a class="linkSwitchForm" @click="switchFormLogin = true" href="#">Vous avez déja un compte
                                 ?</a>
