@@ -98,12 +98,15 @@ const chatJs = new Vue({
                     firebase.database().ref('listUsers').child(child.key).child('pseudo');
                     this.pseudoExist = child.child('pseudo').val();
                     this.passwordExist = CryptoJS.MD5(child.child('password').val().toString()); // Utilisation de CryptoJS pour le hashage des mots de passes
+                    this.emailExist = child.child('email').val();
                 }));
+
+                
 
                 var hash = CryptoJS.MD5(this.passwordEdit).toString();
 
                 if (this.pseudoEdit) {
-                    if (this.pseudoExist === this.pseudoEdit && this.passwordExist == hash) {
+                    if (this.pseudoExist === this.pseudoEdit && this.passwordExist == hash && this.emailExist === this.emailEdit) {
                         this.pseudoExist = ""
                         this.pseudo = this.pseudoEdit;
                         this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).once("value", snapshot => {
@@ -116,6 +119,9 @@ const chatJs = new Vue({
                                 });
                             }));
                         });
+                        console.log(this.passwordExist + " " + this.passwordEdit)
+                        console.log(this.pseudoExist + " " + this.pseudoEdit)
+                        console.log(this.emailExist + " " + this.emailEdit)
                         this.pseudoEdit = "";
                         
                     } else {
