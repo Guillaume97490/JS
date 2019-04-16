@@ -52,9 +52,9 @@ const chatJs = new Vue({
                 
                 
             });
-
             
-            this.inscriptionUser()
+            
+            this.inscriptionUser();
             
             
         },
@@ -65,12 +65,8 @@ const chatJs = new Vue({
                 console.log(error.message);
                 });
 
-
-                
-                this.connectUser()
-                
-                
-
+                this.connectUser();
+ 
         },
         signOut(){
             firebase.auth().signOut().then(function() {
@@ -119,13 +115,13 @@ const chatJs = new Vue({
                                 });
                             }));
                         });
-                        console.log(this.passwordExist + " " + this.passwordEdit)
-                        console.log(this.pseudoExist + " " + this.pseudoEdit)
-                        console.log(this.emailExist + " " + this.emailEdit)
+                        console.log(this.passwordExist + " " + this.passwordEdit);
+                        console.log(this.pseudoExist + " " + this.pseudoEdit);
+                        console.log(this.emailExist + " " + this.emailEdit);
                         this.pseudoEdit = "";
                         
                     } else {
-                        document.getElementById("errorConnect").innerHTML = "Identifiants incorrects. Merci de réessayer."
+                        document.getElementById("errorConnect").innerHTML = "Identifiants incorrects. Merci de réessayer.";
                         this.resetLogin();
                     };
                 };
@@ -152,7 +148,23 @@ const chatJs = new Vue({
 
                 if (this.inscriptionSucces == true) {
                     // this.connectUser();
+
+
+
+                    firebase.auth().signInWithEmailAndPassword(this.emailEdit, this.passwordEdit).catch(function(error) {
+                        console.log(error.code);
+                        console.log(error.message);
+                        });
+        
+                        this.connectUser();
+                        this.loadUsers();
+
+
                     this.connectWithEmail();
+
+                    
+                    
+                    
                     this.resetLogin();
 
                 } 
@@ -176,6 +188,10 @@ const chatJs = new Vue({
                         email: this.emailEdit,
                         enLigne: false,
                     });
+                    this.loadUsers();
+                    this.connectUser();
+                    this.connectWithEmail();
+
                 };
 
             });

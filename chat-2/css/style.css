@@ -335,6 +335,9 @@ hr {
 #userOffLine a{
     color: rgb(80, 80, 80);
 }
+.hide{
+    display: none;
+}
 
 
 @media screen and (max-width: 500px) {
