@@ -273,6 +273,20 @@ hr {
     font-weight: bold;
 }
 
+#successInscription{
+    color: rgb(16, 187, 0);
+    font-weight: bold;
+}
+
+.errorMsg{
+    color: red;
+    font-weight: bold;
+}
+
+.successMsg{
+    color: rgb(16, 187, 0);
+    font-weight: bold;
+}
 #btnConnect {
     width: 322px;
     border: none;
