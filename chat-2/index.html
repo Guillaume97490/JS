@@ -46,12 +46,12 @@
                                 placeholder="Adresse E-mail (valide)"><br><br>
 
                             <label class="col-12 w-75 text-left mb-0  px-2" for="Password">Mot de passe :</label>
-                            <input class="w-75 text-left  px-2" type="password" title="Votre mot de passe" name="Password" required pattern="\w{6}"
+                            <input class="w-75 text-left  px-2" type="password" title="Votre mot de passe" name="Password" required 
                                 v-on:keyup.enter="connectWithEmail()" v-model=passwordEdit id="formPassword"
                                 placeholder="Mot de passe"><br>
-                            <span v-show="this.pseudoEdit == ''" id="errorConnect"></span><br>
+                            <span class="" id="errorConnect"></span><br>
                             <button id="btnConnect" @click="connectWithEmail()" type="submit">Se connecter</button><br>
-                            <!-- <button id="btnConnect" @click="connectUser(pseudo)" type="submit">Se connecter</button><br> -->
+
                             <a class="linkSwitchForm" @click="switchFormLogin = false" href="#">S'enregistrer</a>
                         </form>
                       
@@ -70,7 +70,7 @@
                                 id="formPseudo" title="Votre pseudo" placeholder="Choisir un nom d'utilisateur"><br><br>
 
                             <label class="col-12 w-75 text-left mb-0 px-2" for="E-mail">E-mail :</label>
-                            <input class="w-75 text-left px-2" v-if="this.email == ''" name="Email" pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                            <input class="w-75 text-left px-2" v-if="this.email == ''" name="Email"
                                 v-on:keyup.enter="inscriptionWithEmail()" type="email" required v-model="emailEdit"
                                 id="formEmail" title="Adresse E-mail (valide)" placeholder="Adresse E-mail (valide)"><br><br>
 

@@ -56,7 +56,7 @@ const chatJs = new Vue({
                     document.getElementById("accountMsg").innerHTML = "Veuillez patientez ..."
         
                     setTimeout(() => {
-                        (this.passwordEdit.length >= 6) ? this.inscriptionUser() : (document.getElementById("accountMsg").classList.replace("successMsg", "errorMsg") , document.getElementById("accountMsg").innerHTML = "Le mot de passe doit avoir 6 caractères minimum.");
+                        (this.passwordEdit.length > 5) ? this.inscriptionUser() : (document.getElementById("accountMsg").classList.replace("successMsg", "errorMsg") , document.getElementById("accountMsg").innerHTML = "Le mot de passe doit avoir 6 caractères minimum.");
                     }, 2000);
 
                 } else {
@@ -70,6 +70,10 @@ const chatJs = new Vue({
             firebase.auth().signInWithEmailAndPassword(this.emailEdit, this.passwordEdit).catch(function(error) {
                 // console.log(error.code);console.log(error.message);
             });
+            document.getElementById("errorConnect").classList.add("successMsg");
+            document.getElementById("errorConnect").innerHTML = "Veuillez patienter.";
+            setTimeout(() => {
+            }, 2000);
 
             setTimeout(() => {
                     this.connectUser();
@@ -125,8 +129,9 @@ const chatJs = new Vue({
                         this.pseudoEdit = "";
                         
                     } else {
+                        document.getElementById("errorConnect").classList.replace("successMsg", "errorMsg");
                         document.getElementById("errorConnect").innerHTML = "Identifiants incorrects. Merci de réessayer.";
-                        this.resetLogin();
+                        // this.resetLogin();
                     };
                 };
                 this.scrollAuto();
@@ -338,5 +343,3 @@ const chatJs = new Vue({
         },
     },
 });
-
-

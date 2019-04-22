@@ -268,10 +268,10 @@ hr {
     opacity: 0;
 }
 
-#errorConnect, #errorInscription {
+/* #errorConnect, #errorInscription {
     color: red;
     font-weight: bold;
-}
+} */
 
 #successInscription{
     color: rgb(16, 187, 0);

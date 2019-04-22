@@ -47,7 +47,8 @@ body {
 }
 
 #formPseudo,
-#formPassword {
+#formPassword,
+#formEmail {
     margin: auto;
     height: 50px;
     padding: 0 10px;
@@ -59,12 +60,15 @@ body {
     border-bottom: solid #747474;
 }
 
-#formPassword {
+#formPassword,
+#formEmail,
+#formPseudo {
     margin-bottom: 20px;
 }
 
 #formPseudo:focus,
-#formPassword:focus {
+#formPassword:focus,
+#formEmail:focus {
     border-color: #9f8845;
 }
 
@@ -264,11 +268,25 @@ hr {
     opacity: 0;
 }
 
-#errorConnect, #errorInscription {
+/* #errorConnect, #errorInscription {
+    color: red;
+    font-weight: bold;
+} */
+
+#successInscription{
+    color: rgb(16, 187, 0);
+    font-weight: bold;
+}
+
+.errorMsg{
     color: red;
     font-weight: bold;
 }
 
+.successMsg{
+    color: rgb(16, 187, 0);
+    font-weight: bold;
+}
 #btnConnect {
     width: 322px;
     border: none;
@@ -330,6 +348,9 @@ hr {
 }
 #userOffLine a{
     color: rgb(80, 80, 80);
+}
+.hide{
+    display: none;
 }
 
 

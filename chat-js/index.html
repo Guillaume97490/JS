@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-database.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -33,39 +34,55 @@
                         <form v-if="this.switchFormLogin === true" key="switchFormLogin === true" id="connection"
                             action="javascript:;">
                             <div><i class="fas fa-user"></i></div>
-                            <!-- <label for="Pseudo">Pseudo</label> -->
-                            <input v-focus v-if="this.pseudo == ''" name="Pseudo" v-on:keyup.enter="connectUser(pseudo)"
+
+                            <label class="col-12 w-75 text-left mb-0 px-2" for="Pseudo">Nom d'utilisateur :</label>
+                            <input class="w-75 text-left px-2" v-focus v-if="this.pseudo == ''" name="Pseudo" v-on:keyup.enter="connectWithEmail()"
                                 type="text" required v-model="pseudoEdit" id="formPseudo" title="Votre pseudo"
                                 placeholder="Nom d'utilisateur"><br><br>
-                            <!-- <label for="Password">Mot de passe</label> -->
-                            <input type="password" title="Votre mot de passe" name="Password" required
-                                v-on:keyup.enter="connectUser(pseudo)" v-model=passwordEdit id="formPassword"
+
+                            <label class="col-12 w-75 text-left mb-0 px-2" for="E-mail">E-mail :</label>
+                            <input class="w-75 text-left  px-2" v-if="this.email == ''" name="Email" v-on:keyup.enter="connectWithEmail()"
+                                type="email" required v-model="emailEdit" id="formEmail" title="Votre E-mail"
+                                placeholder="Adresse E-mail (valide)"><br><br>
+
+                            <label class="col-12 w-75 text-left mb-0  px-2" for="Password">Mot de passe :</label>
+                            <input class="w-75 text-left  px-2" type="password" title="Votre mot de passe" name="Password" required 
+                                v-on:keyup.enter="connectWithEmail()" v-model=passwordEdit id="formPassword"
                                 placeholder="Mot de passe"><br>
-                            <span v-show="this.pseudoEdit == ''" id="errorConnect"></span><br>
-                            <button id="btnConnect" @click="connectUser(pseudo)" type="submit">Se connecter</button><br>
+                            <span class="" id="errorConnect"></span><br>
+                            <button id="btnConnect" @click="connectWithEmail()" type="submit">Se connecter</button><br>
+
                             <a class="linkSwitchForm" @click="switchFormLogin = false" href="#">S'enregistrer</a>
                         </form>
-
+                      
 
 
                         <!-- iNSCRIPTION -->
 
                         <form v-if="this.switchFormLogin === false" key="this.switchFormLogin === false"
                             id="inscription" action="javascript:;">
+
                             <div><i id="userPlus" class="fas fa-user-plus"></i></div>
-                            <!-- <label for="Pseudo">Pseudo</label> -->
-                            <input v-focus v-if="this.pseudo == ''" name="Pseudo"
-                                v-on:keyup.enter="inscriptionUser(pseudo)" type="text" required v-model="pseudoEdit"
+
+                            <label class="col-12 w-75 text-left mb-0 px-2" for="Pseudo">Nom d'utilisateur :</label>
+                            <input class="w-75 text-left px-2" v-focus v-if="this.pseudo == ''" name="Pseudo"
+                                v-on:keyup.enter="inscriptionWithEmail()" type="text" required v-model="pseudoEdit"
                                 id="formPseudo" title="Votre pseudo" placeholder="Choisir un nom d'utilisateur"><br><br>
-                            <!-- <label for="Password">Mot de passe</label> -->
-                            <input type="password" title="Votre mot de passe" name="Password" required
-                                v-on:keyup.enter="inscriptionUser(pseudo)" v-model=passwordEdit id="formPassword"
+
+                            <label class="col-12 w-75 text-left mb-0 px-2" for="E-mail">E-mail :</label>
+                            <input class="w-75 text-left px-2" v-if="this.email == ''" name="Email"
+                                v-on:keyup.enter="inscriptionWithEmail()" type="email" required v-model="emailEdit"
+                                id="formEmail" title="Adresse E-mail (valide)" placeholder="Adresse E-mail (valide)"><br><br>
+
+                            <label class="col-12 w-75 text-left mb-0 px-2" for="Password">Mot de passe :</label>
+                            <input class="w-75 text-left px-2" type="password" title="Votre mot de passe (6 caractères minimum)" name="Password" required pattern="\w{6}"
+                                v-on:keyup.enter="inscriptionWithEmail()" v-model=passwordEdit id="formPassword"
                                 placeholder="Choisir un mot de passe"><br>
-                            <span v-show="this.pseudoEdit == ''" id="errorInscription"></span><br>
-                            <button id="btnConnect" @click="inscriptionUser(pseudo)"
-                                type="submit">S'enregistrer</button><br>
-                            <a class="linkSwitchForm" @click="switchFormLogin = true" href="#">Vous avez déja un compte
-                                ?</a>
+                            
+                            <span class="" id="accountMsg"></span><br>
+                            
+                            <button id="btnConnect" @click="inscriptionWithEmail()" type="submit">S'enregistrer</button><br>
+                            <a class="linkSwitchForm" @click="switchFormLogin = true" href="#">Vous avez déja un compte ?</a>
                         </form>
                     </transition>
 
@@ -118,9 +135,9 @@
                                             v-focus v-on:keydown.enter="validInputEditMessage(idMsg, edit)" v-on:keyup.enter="edit = false"></textarea>
                                         <span class="userMessage"></span id="msgInChat">{{msg}}</span>
                                         <div class="groupBtnMsg">
-                                            <i id="editBtn" title="Editer ce message"
-                                                @click="editMessage(idMsg, msg, pseudo, index)" class="fas fa-edit"></i>
-                                            <i id="deleteBtn" title="Effacer ce message"
+                                            <i v-if="checkPseudo(pseudo)" id="editBtn" title="Editer ce message"
+                                                @click="editMessage(idMsg, msg, pseudo)" class="fas fa-edit"></i>
+                                            <i v-if="checkPseudo(pseudo)" id="deleteBtn" title="Effacer ce message"
                                                 @click="deleteMessage(idMsg, pseudo)" class="fas fa-times"></i>
                                         </div>
 

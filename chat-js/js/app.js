@@ -18,6 +18,8 @@ const chatJs = new Vue({
     data: {
         pseudo: "",
         pseudoEdit: "",
+        email: "",
+        emailEdit: "",
         password: "",
         passwordEdit: "",
         msg: "",
@@ -29,6 +31,7 @@ const chatJs = new Vue({
         listUsers: [],
         pseudoExist: "",
         passwordExist: "",
+        emailExist: "",
         switchFormLogin: true,
         database: firebase.database(),
     },
@@ -40,6 +43,51 @@ const chatJs = new Vue({
     },
 
     methods: {
+        inscriptionWithEmail(){
+                var emailText = this.emailEdit
+                var pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+                if (pattern.test(emailText)) {
+
+                    firebase.auth().createUserWithEmailAndPassword(this.emailEdit, this.passwordEdit).catch(function(error) {
+                        // console.log(error.code);console.log(error.message);
+                    });
+                    
+                    document.getElementById("accountMsg").classList.add("successMsg");
+                    document.getElementById("accountMsg").innerHTML = "Veuillez patientez ..."
+        
+                    setTimeout(() => {
+                        (this.passwordEdit.length > 5) ? this.inscriptionUser() : (document.getElementById("accountMsg").classList.replace("successMsg", "errorMsg") , document.getElementById("accountMsg").innerHTML = "Le mot de passe doit avoir 6 caractères minimum.");
+                    }, 2000);
+
+                } else {
+                    document.getElementById("accountMsg").classList.add("errorMsg");
+                    document.getElementById("accountMsg").innerHTML = "L'adrese e-mail doit etre valide";
+          
+        };
+        },
+        
+        connectWithEmail(){
+            firebase.auth().signInWithEmailAndPassword(this.emailEdit, this.passwordEdit).catch(function(error) {
+                // console.log(error.code);console.log(error.message);
+            });
+            document.getElementById("errorConnect").classList.add("successMsg");
+            document.getElementById("errorConnect").innerHTML = "Veuillez patienter.";
+            setTimeout(() => {
+            }, 2000);
+
+            setTimeout(() => {
+                    this.connectUser();
+                }, 2000);
+ 
+        },
+        signOut(){
+            firebase.auth().signOut().then(function() {
+                console.log("Logged out!");
+                }, function(error) {
+                // console.log(error.code);console.log(error.message);
+                });
+                
+        },
 
         resetLogin() {
             this.pseudoEdit = "";
@@ -48,18 +96,23 @@ const chatJs = new Vue({
             this.passwordEdit = "";
 
         },
+
+
         connectUser() {
             this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).on("value", snapshot => { // vérifie que le pseudo existe dans FireBase.
                 snapshot.forEach((child => {
                     firebase.database().ref('listUsers').child(child.key).child('pseudo');
                     this.pseudoExist = child.child('pseudo').val();
                     this.passwordExist = CryptoJS.MD5(child.child('password').val().toString()); // Utilisation de CryptoJS pour le hashage des mots de passes
+                    this.emailExist = child.child('email').val();
                 }));
+
+                
 
                 var hash = CryptoJS.MD5(this.passwordEdit).toString();
 
                 if (this.pseudoEdit) {
-                    if (this.pseudoExist === this.pseudoEdit && this.passwordExist == hash) {
+                    if (this.pseudoExist === this.pseudoEdit && this.passwordExist == hash && this.emailExist === this.emailEdit) {
                         this.pseudoExist = ""
                         this.pseudo = this.pseudoEdit;
                         this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).once("value", snapshot => {
@@ -72,11 +125,13 @@ const chatJs = new Vue({
                                 });
                             }));
                         });
+                        
                         this.pseudoEdit = "";
                         
                     } else {
-                        document.getElementById("errorConnect").innerHTML = "Identifiants incorrects. Merci de réessayer."
-                        this.resetLogin();
+                        document.getElementById("errorConnect").classList.replace("successMsg", "errorMsg");
+                        document.getElementById("errorConnect").innerHTML = "Identifiants incorrects. Merci de réessayer.";
+                        // this.resetLogin();
                     };
                 };
                 this.scrollAuto();
@@ -84,33 +139,51 @@ const chatJs = new Vue({
         },
 
         inscriptionUser() {
-            this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).on("value", snapshot => {
+            
+            this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).once("value", snapshot => {
                 snapshot.forEach((child => {
                     firebase.database().ref('listUsers').child(child.key).child('pseudo');
                     this.pseudoExist = child.child('pseudo').val();
+                    
                 }));
+                this.database.ref('listUsers').orderByChild('email').equalTo(this.emailEdit).once("value", snapshot => {
+                    snapshot.forEach((child => {
+                        firebase.database().ref('listUsers').child(child.key).child('email');
+                        this.emailExist = child.child('email').val();
+                    }));
 
-                if (this.inscriptionSucces == true) {
-                    this.connectUser();
-                    this.resetLogin();
+                });
+ 
+                if((this.emailExist === this.emailEdit) || (this.pseudoExist === this.pseudoEdit)){
+                    document.getElementById("accountMsg").innerHTML = "";
+                    document.getElementById("accountMsg").classList.replace("successMsg", "errorMsg")
 
-                } 
-                else if (this.pseudoExist === this.pseudoEdit) {
-                    this.resetLogin();
-                    document.getElementById("errorInscription").innerHTML = "Nom d'utilisateur existant, merci d'en choisir un autre"
+                    (this.pseudoExist === this.pseudoEdit) ? document.getElementById("accountMsg").innerHTML = "Nom d'utilisateur existant, merci d'en choisir un autre" : "";
+                    
+                    (this.emailExist === this.emailEdit) ? document.getElementById("accountMsg").innerHTML = "E-mail existant, merci d'en choisir un autre" : "";
+                    
 
-                } else if (this.pseudoEdit && this.passwordEdit) {
+                } else  {
+                    document.getElementById("accountMsg").classList.replace("errorMsg", "successMsg")
+                    document.getElementById("accountMsg").innerHTML = "Veuillez patientez ..."
                     const myRef = this.database.ref().push(); // génère un ID unique,
                     const key = myRef.key;
-                    this.inscriptionSucces = true
                     this.database.ref("listUsers").push({
                         idUser: key,
                         pseudo: this.pseudoEdit,
                         password: this.passwordEdit,
+                        email: this.emailEdit,
                         enLigne: false,
                     });
-                };
 
+
+                    firebase.auth().signInWithEmailAndPassword(this.emailEdit, this.passwordEdit).catch(function(error) {
+                        // console.log(error.code);console.log(error.message);
+                        });
+
+                    this.connectWithEmail();
+                    
+                };
             });
             this.database.ref('listUsers').orderByChild('pseudo').equalTo(this.pseudoEdit).once("value", snapshot => {
                 snapshot.forEach((child => {
@@ -182,12 +255,18 @@ const chatJs = new Vue({
             this.scrollAuto();
         },
 
+        checkPseudo(pseudo){
+            if (pseudo == this.pseudo){
+                return true
+            }
+        },
+
         privateSalon(idUser) {
             this.database.ref('listUsers').orderByChild('idUser').equalTo(idUser).on("value", snapshot => {
                 snapshot.forEach((child => {
                     firebase.database().ref('listUsers').child(child.key).child('pseudo');
                     var userB = child.child('pseudo').val();
-                    (userB > this.pseudo) ? this.salon = this.pseudo + " et " + userB: this.salon = userB + " et " + this.pseudo;
+                    (userB !== this.pseudo) ? (userB > this.pseudo) ? this.salon = this.pseudo + " et " + userB: this.salon = userB + " et " + this.pseudo : "";
                     this.scrollAuto();
                 }));
             });
@@ -219,11 +298,12 @@ const chatJs = new Vue({
                     }));
                 });
             } else {
-                alert("Désolé, seul l'auteur de ce message est en mesure de le supprimer")
+                // alert("Désolé, seul l'auteur de ce message est en mesure de le supprimer")
             };
         },
 
         editMessage(idMsg, msg, pseudo) {
+            
             if (pseudo == this.pseudo) {
                 this.msgEdit = msg;
 
@@ -237,7 +317,7 @@ const chatJs = new Vue({
                 });
 
             } else {
-                alert("Désolé, seul l'auteur de ce message est en mesure de l'éditer")
+                // alert("Désolé, seul l'auteur de ce message est en mesure de l'éditer")
             };
         },
 
@@ -263,3 +343,4 @@ const chatJs = new Vue({
         },
     },
 });
+
